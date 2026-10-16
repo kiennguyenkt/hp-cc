@@ -1,6 +1,9 @@
 import type { Locale } from '../domain/types';
 import type { TranslationKey } from '../i18n';
 
+const localeLabels: Record<Locale, string> = { vi: 'VN', en: 'EN', th: 'TH', id: 'ID', zh: '中文' };
+const locales = Object.keys(localeLabels) as Locale[];
+
 interface HeaderProps {
   configIds: string[];
   activeId: string;
@@ -50,9 +53,9 @@ export function Header({ configIds, activeId, locale, saveStatus, onSelect, onAd
             <span className="save-dot" />{saveLabel}
           </span>
           <div className="language-switch" aria-label={t('language')}>
-            {(['vi', 'en'] as const).map((code) => (
+            {locales.map((code) => (
               <button key={code} type="button" className={locale === code ? 'is-active' : ''} onClick={() => onLocaleChange(code)}>
-                {code === 'vi' ? 'VN' : 'EN'}
+                {localeLabels[code]}
               </button>
             ))}
           </div>

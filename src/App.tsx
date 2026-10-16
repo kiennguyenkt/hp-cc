@@ -10,6 +10,7 @@ import { translator } from './i18n';
 import { loadConfigs, loadLocale, saveConfigs, saveLocale } from './storage';
 
 type SaveStatus = 'saved' | 'saving' | 'error';
+const numberLocales: Record<Locale, string> = { vi: 'vi-VN', en: 'en-US', th: 'th-TH', id: 'id-ID', zh: 'zh-CN' };
 
 export default function App() {
   const initial = useMemo(loadConfigs, []);
@@ -110,7 +111,7 @@ export default function App() {
   };
 
   const result = useMemo(() => calculate(activeConfig, now), [activeConfig, now]);
-  const numberFormat = useMemo(() => new Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', { maximumFractionDigits: 0 }), [locale]);
+  const numberFormat = useMemo(() => new Intl.NumberFormat(numberLocales[locale], { maximumFractionDigits: 0 }), [locale]);
   const format = useCallback((value: number | null) => value === null || !Number.isFinite(value) ? t('invalid') : numberFormat.format(value), [numberFormat, t]);
 
   return (

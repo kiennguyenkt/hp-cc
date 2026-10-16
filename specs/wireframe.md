@@ -24,7 +24,7 @@ Cột trái hẹp chứa tham số, mặc định mở và có thể thu gọn. 
 │ THAM SỐ       [Thu gọn]  │ DỮ LIỆU ACCOUNT                                          │
 │                         │                                                          │
 │ Kết thúc sự kiện        │ Chiến công hiện có                [             939,136 ] │
-│ [ DD/MM/YYYY ] · 08:00  │ Max HP reset / ngày               [              234910 ] │
+│ [ DD/MM/YYYY ] · 20:00  │ Max HP reset / ngày               [              234910 ] │
 │ Còn — ngày · — giờ      │ HP hiện tại                       [                   0 ] │
 │                         │ HP dự trữ                         [              374620 ] │
 │ Lv bang hiện tại        │ Số bình hiện tại              [i] [                3499 ] │
@@ -90,7 +90,7 @@ Chuyển về một cột, thứ tự: tham số → input → kết quả → m
 │ Đã lưu trên trình duyệt          │
 ├──────────────────────────────────┤
 │ THAM SỐ              [Thu gọn]   │
-│ Kết thúc: [DD/MM/YYYY] · 08:00    │
+│ Kết thúc: [DD/MM/YYYY] · 20:00    │
 │ Còn — ngày · — giờ               │
 │                                  │
 │ Lv hiện tại    Lv tối đa          │

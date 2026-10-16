@@ -8,7 +8,7 @@ function parseEndDate(value: string): Date | null {
   const year = Number(match[1]);
   const month = Number(match[2]);
   const day = Number(match[3]);
-  const date = new Date(year, month - 1, day, 8, 0, 0, 0);
+  const date = new Date(year, month - 1, day, 20, 0, 0, 0);
   if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return null;
   return date;
 }
@@ -49,8 +49,10 @@ export function calculate(config: CalculatorConfig, now = new Date()): Calculato
   const minutesRemaining = end
     ? Math.max(0, Math.floor((end.getTime() - now.getTime()) / 60_000))
     : null;
-  const hoursRemaining = minutesRemaining === null ? null : Math.floor(minutesRemaining / 60);
-  const recoveryHp = minutesRemaining === null ? null : minutesRemaining * config.recoveryRate;
+  const hoursRemaining = end
+    ? Math.max(0, Math.round((end.getTime() - now.getTime()) / 3_600_000))
+    : null;
+  const recoveryHp = hoursRemaining === null ? null : hoursRemaining * 60 * config.recoveryRate;
   const resetHp = daysRemaining === null || resetPerDay === null ? null : daysRemaining * resetPerDay;
 
   const dailyBottles = 60 + (config.buyDailyDiamonds ? 90 * 5 : 0);

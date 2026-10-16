@@ -135,7 +135,7 @@ h1 { margin: 0; font-size: clamp(1.1rem, 2vw, 1.45rem); line-height: 1.1; letter
 .mobile-label { display: none; }
 
 .info-tip { position: relative; display: inline-grid; place-items: center; width: 16px; height: 16px; margin-left: 3px; border: 1px solid currentColor; border-radius: 50%; font: 800 .6rem/1 serif; cursor: help; opacity: .75; vertical-align: 1px; }
-.info-tip__bubble { position: absolute; left: 50%; bottom: calc(100% + 9px); z-index: 30; width: 250px; padding: 10px 12px; border-radius: 9px; color: #fff; background: #1b2722; box-shadow: 0 8px 20px rgba(0,0,0,.18); font: 500 .7rem/1.45 Inter, sans-serif; text-transform: none; letter-spacing: 0; opacity: 0; visibility: hidden; transform: translate(-50%, 4px); transition: .15s; pointer-events: none; }
+.info-tip__bubble { position: absolute; left: 50%; bottom: calc(100% + 9px); z-index: 30; width: 310px; padding: 10px 12px; border-radius: 9px; color: #fff; background: #1b2722; box-shadow: 0 8px 20px rgba(0,0,0,.18); font: 500 .7rem/1.45 Inter, sans-serif; text-transform: none; letter-spacing: 0; white-space: pre-line; opacity: 0; visibility: hidden; transform: translate(-50%, 4px); transition: .15s; pointer-events: none; }
 .info-tip:hover .info-tip__bubble, .info-tip:focus .info-tip__bubble { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
 
 .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; background: rgba(8,18,14,.64); backdrop-filter: blur(5px); }

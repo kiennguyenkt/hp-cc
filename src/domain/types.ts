@@ -1,4 +1,4 @@
-export type Locale = 'vi' | 'en';
+export type Locale = 'vi' | 'en' | 'th' | 'id' | 'zh';
 export type MaxGuildLevel = 27 | 40;
 
 export interface CalculatorConfig {

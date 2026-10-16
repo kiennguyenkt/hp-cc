@@ -4,8 +4,11 @@ import { createDefaultConfig } from './rules';
 
 describe('calculate', () => {
   it('calculates the default config two calendar days before the event', () => {
-    const result = calculate(createDefaultConfig('test'), new Date(2026, 9, 16, 8));
+    const result = calculate(createDefaultConfig('test'), new Date(2026, 9, 16, 16));
     expect(result.daysRemaining).toBe(2);
+    expect(result.minutesRemaining).toBe(52 * 60);
+    expect(result.hoursRemaining).toBe(52);
+    expect(result.recoveryHp).toBe(52 * 60 * 320);
     expect(result.totalBottles).toBe(3440);
     expect(result.extraMaxBottles).toBe(1509);
   });
@@ -19,8 +22,14 @@ describe('calculate', () => {
     expect(result.scenarios.neither.current).toBe(result.projectedCurrent);
   });
 
+  it('calculates recovered HP from the displayed whole hours', () => {
+    const result = calculate(createDefaultConfig('test'), new Date(2026, 9, 16, 16, 30));
+    expect(result.hoursRemaining).toBe(52);
+    expect(result.recoveryHp).toBe(52 * 60 * 320);
+  });
+
   it('returns zero future resources once the event ends', () => {
-    const result = calculate(createDefaultConfig('test'), new Date(2026, 9, 18, 8));
+    const result = calculate(createDefaultConfig('test'), new Date(2026, 9, 18, 20));
     expect(result.daysRemaining).toBe(0);
     expect(result.minutesRemaining).toBe(0);
     expect(result.futureDailyBottles).toBe(0);

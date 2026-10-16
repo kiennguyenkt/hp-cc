@@ -80,7 +80,7 @@ src/
 - Chênh lệch bình khi current level bằng hoặc nhỏ hơn max level.
 - Sự kiện chưa kết thúc, đúng thời điểm kết thúc và đã kết thúc theo múi giờ cục bộ của trình duyệt.
 - Số giờ còn lại được round down; số ngày còn lại theo chênh lệch ngày lịch cục bộ.
-- HP hồi dùng số phút còn lại và không bị giới hạn bởi HP recovery limit.
+- Số giờ còn lại dùng `ROUND` như công thức Excel; HP hồi dùng số giờ đang hiển thị × 60 × mức hồi HP/phút và không bị giới hạn bởi HP recovery limit.
 - Số bình hiện tại đã gồm mọi nguồn quá khứ; tổng projection không cộng lại lookup level hiện tại hoặc phần package/KC đã nhận.
 - Auto refresh sau mỗi 5 giây, khi tab visible và khi window focus; dọn interval/listener khi unmount.
 - Tổng dự kiến đến cuối event ở level hiện tại, tổng dự kiến khi bang max và tổng không nạp gói 249.

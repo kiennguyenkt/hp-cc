@@ -1,4 +1,6 @@
 import type { CalculatorConfig, CalculatorResult } from '../domain/types';
+import { HP_PER_BOTTLE } from '../domain/rules';
+import { parseNumericDraft } from '../domain/validation';
 import type { TranslationKey } from '../i18n';
 import { InfoTip } from './InfoTip';
 
@@ -15,11 +17,37 @@ export function ResultsDashboard({ result, config, format, t }: ResultsProps) {
   const selectedScenario = config.buyPackage249
     ? (config.buyDailyDiamonds ? 'both' : 'noDaily')
     : (config.buyDailyDiamonds ? 'noPackage' : 'neither');
+  const recoveryFormula = `${format(result.hoursRemaining)} ${t('hours')} × 60 ${t('minutes')}/${t('hours')} × ${format(config.recoveryRate)} HP/${t('minutes')} = ${format(result.recoveryHp)} HP`;
+  const resetFormula = `${format(result.daysRemaining)} ${t('days')} × ${format(parseNumericDraft(config.maxHpReset))} HP/${t('days')} = ${format(result.resetHp)} HP`;
+  const packageBottlesPerDay = config.buyPackage249 ? 210 : 10;
+  const bottlesFormula = `${format(parseNumericDraft(config.currentBottles))} + ${format(result.daysRemaining)} × ${format(result.dailyBottles)} (Daily) + ${format(result.daysRemaining)} × ${format(packageBottlesPerDay)} (249/free) = ${format(result.totalBottles)} ${t('bottles')}`;
+  const bottleHpFormula = `${format(result.totalBottles)} ${t('bottles')} × ${format(HP_PER_BOTTLE)} HP = ${format(result.totalBottleHp)} HP`;
 
   return (
     <div className="results-stack">
+      <section className="card details-card">
+        <div className="section-heading"><h2>{t('details')}</h2><span className="section-index">02</span></div>
+        <div className="detail-list">
+          <div><span>{t('hpRecovered')} <InfoTip label={recoveryFormula} /></span><strong>{format(result.recoveryHp)}</strong></div>
+          <div><span>{t('hpReset')} <InfoTip label={resetFormula} /></span><strong>{format(result.resetHp)}</strong></div>
+          <div><span>{t('bottlesToEnd')} <InfoTip label={bottlesFormula} /></span><strong>{format(result.totalBottles)}</strong></div>
+          <div><span>{t('bottleHp')} <InfoTip label={bottleHpFormula} /></span><strong>{format(result.totalBottleHp)}</strong></div>
+        </div>
+
+        <div className="comparison-heading"><h3>{t('comparisons')}</h3><span>{t('currentLevel')}</span><span>{t('guildMax')}</span></div>
+        <div className="comparison-table">
+          {scenarioKeys.map((key) => (
+            <div className={key === selectedScenario ? 'comparison-row is-current' : 'comparison-row'} key={key}>
+              <span>{t(key)} {key === selectedScenario && <em>{t('currentScenario')}</em>}</span>
+              <strong><small className="mobile-label">{t('currentLevel')}</small>{format(result.scenarios[key].current)}</strong>
+              <strong><small className="mobile-label">{t('guildMax')}</small>{format(result.scenarios[key].max)}</strong>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section className="summary-card card">
-        <div className="section-heading section-heading--light"><h2>{t('projectedTitle')}</h2><span className="section-index">02</span></div>
+        <div className="section-heading section-heading--light"><h2>{t('projectedTitle')}</h2><span className="section-index">03</span></div>
         <div className="projection-grid">
           <div className="projection projection--primary">
             <span>{t('currentLevel')}</span><strong>{format(result.projectedCurrent)}</strong><small>HP</small>
@@ -36,7 +64,7 @@ export function ResultsDashboard({ result, config, format, t }: ResultsProps) {
       </section>
 
       <section className="card targets-card">
-        <div className="section-heading"><h2>{t('targets')}</h2><span className="section-index">03</span></div>
+        <div className="section-heading"><h2>{t('targets')}</h2><span className="section-index">04</span></div>
         <div className="target-grid">
           {(['3500000', '5000000'] as const).map((target) => (
             <article className="target-block" key={target}>
@@ -55,26 +83,6 @@ export function ResultsDashboard({ result, config, format, t }: ResultsProps) {
         </div>
       </section>
 
-      <section className="card details-card">
-        <div className="section-heading"><h2>{t('details')}</h2><span className="section-index">04</span></div>
-        <div className="detail-list">
-          <div><span>{t('hpRecovered')}</span><strong>{format(result.recoveryHp)}</strong></div>
-          <div><span>{t('hpReset')}</span><strong>{format(result.resetHp)}</strong></div>
-          <div><span>{t('bottlesToEnd')} <InfoTip label={t('snapshotTip')} /></span><strong>{format(result.totalBottles)}</strong></div>
-          <div><span>{t('bottleHp')}</span><strong>{format(result.totalBottleHp)}</strong></div>
-        </div>
-
-        <div className="comparison-heading"><h3>{t('comparisons')}</h3><span>{t('currentLevel')}</span><span>{t('guildMax')}</span></div>
-        <div className="comparison-table">
-          {scenarioKeys.map((key) => (
-            <div className={key === selectedScenario ? 'comparison-row is-current' : 'comparison-row'} key={key}>
-              <span>{t(key)} {key === selectedScenario && <em>{t('currentScenario')}</em>}</span>
-              <strong><small className="mobile-label">{t('currentLevel')}</small>{format(result.scenarios[key].current)}</strong>
-              <strong><small className="mobile-label">{t('guildMax')}</small>{format(result.scenarios[key].max)}</strong>
-            </div>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }

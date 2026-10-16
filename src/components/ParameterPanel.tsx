@@ -36,7 +36,10 @@ export function ParameterPanel(props: ParameterPanelProps) {
         </label>
         <div className="time-panel">
           <span>{t('timeLeft')}</span>
-          <strong>{format(daysRemaining)} <small>{t('days')}</small> · {format(hoursRemaining)} <small>{t('hours')}</small></strong>
+          <strong>
+            {format(hoursRemaining)} <small>{t('hours')}</small>{' '}
+            <small>({format(daysRemaining)} {t('days')})</small>
+          </strong>
         </div>
       </div>
 

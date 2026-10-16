@@ -3,6 +3,7 @@ import type { CalculatorConfig, Locale } from './domain/types';
 
 const CONFIG_KEY = 'hp-calculator:configs:v1';
 const LOCALE_KEY = 'hp-calculator:locale';
+const supportedLocales: Locale[] = ['vi', 'en', 'th', 'id', 'zh'];
 
 interface StoredState { schemaVersion: 1; configs: CalculatorConfig[]; activeId: string; }
 
@@ -25,7 +26,8 @@ export function saveConfigs(configs: CalculatorConfig[], activeId: string): void
 }
 
 export function loadLocale(): Locale {
-  return localStorage.getItem(LOCALE_KEY) === 'en' ? 'en' : 'vi';
+  const stored = localStorage.getItem(LOCALE_KEY);
+  return supportedLocales.includes(stored as Locale) ? stored as Locale : 'vi';
 }
 
 export function saveLocale(locale: Locale): void { localStorage.setItem(LOCALE_KEY, locale); }

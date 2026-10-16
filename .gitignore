@@ -1,0 +1,6 @@
+# File system OS non-relevant,non content related
+.DS_Store
+*.DS_Store
+**/.DS_Store
+Desktop.ini
+Thumbs.db

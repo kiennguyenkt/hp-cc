@@ -19,6 +19,9 @@ export function ResultsDashboard({ result, config, format, t }: ResultsProps) {
     : (config.buyDailyDiamonds ? 'noPackage' : 'neither');
   const recoveryFormula = `${format(result.hoursRemaining)} ${t('hours')} × 60 ${t('minutes')}/${t('hours')} × ${format(config.recoveryRate)} HP/${t('minutes')} = ${format(result.recoveryHp)} HP`;
   const resetFormula = `${format(result.daysRemaining)} ${t('days')} × ${format(parseNumericDraft(config.maxHpReset))} HP/${t('days')} = ${format(result.resetHp)} HP`;
+  const fillTimeFormula = `${t('roundDown')}: (${t('recoveryLimit')} − ${t('hpBackup')}) ÷ (${t('hpRecoveryRate')} × 60)\n⌊(${format(parseNumericDraft(config.recoveryLimit))} − ${format(parseNumericDraft(config.hpBackup))}) ÷ (${format(config.recoveryRate)} × 60)⌋ = ${format(result.hoursToFill)} ${t('hours')}`;
+  const dischargeTimeFormula = `${t('timeLeft')} − ${t('fillTime')} + 2 ${t('hours')}\n${format(result.hoursRemaining)} − ${format(result.hoursToFill)} + 2 = ${format(result.dischargeHours)} ${t('hours')}`;
+  const dischargeHpFormula = `${t('dischargeTime')} × 60 × ${t('hpRecoveryRate')}\n${format(result.dischargeHours)} ${t('hours')} × 60 ${t('minutes')}/${t('hours')} × ${format(config.recoveryRate)} HP/${t('minutes')} = ${format(result.dischargeHp)} HP`;
   const packageBottlesPerDay = config.buyPackage249 ? 210 : 10;
   const bottlesFormula = `${format(parseNumericDraft(config.currentBottles))} + ${format(result.daysRemaining)} × ${format(result.dailyBottles)} (Daily) + ${format(result.daysRemaining)} × ${format(packageBottlesPerDay)} (249/free) = ${format(result.totalBottles)} ${t('bottles')}`;
   const bottleHpFormula = `${format(result.totalBottles)} ${t('bottles')} × ${format(HP_PER_BOTTLE)} HP = ${format(result.totalBottleHp)} HP`;
@@ -73,9 +76,9 @@ export function ResultsDashboard({ result, config, format, t }: ResultsProps) {
           </div>
         </div>
         <div className="timing-grid">
-          <div><span>{t('fillTime')}</span><strong>{format(result.hoursToFill)} <small>{t('hours')}</small></strong></div>
-          <div className="timing-accent"><span>{t('dischargeTime')}</span><strong>{format(result.dischargeHours)} <small>{t('hours')}</small></strong></div>
-          <div><span>{t('dischargeHp')}</span><strong>{format(result.dischargeHp)} <small>HP</small></strong></div>
+          <div><span>{t('fillTime')} <InfoTip label={fillTimeFormula} /></span><strong>{format(result.hoursToFill)} <small>{t('hours')}</small></strong></div>
+          <div className="timing-accent"><span>{t('dischargeTime')} <InfoTip label={dischargeTimeFormula} /></span><strong>{format(result.dischargeHours)} <small>{t('hours')}</small></strong></div>
+          <div><span>{t('dischargeHp')} <InfoTip label={dischargeHpFormula} /></span><strong>{format(result.dischargeHp)} <small>HP</small></strong></div>
         </div>
       </section>
 

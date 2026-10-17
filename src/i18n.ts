@@ -169,21 +169,21 @@ export const messages = {
   },
   extraBottlesAtMax: {
     vi: "Bình thêm khi bang max",
-    en: "Extra bottles at max level",
+    en: "Extra batteries at max level",
     th: "ขวดเพิ่มเมื่อกิลด์เลเวลสูงสุด",
     id: "Botol tambahan saat level maksimum",
     zh: "满级公会额外药瓶",
   },
   otherRules: {
     vi: "Quy tắc nguồn bình",
-    en: "Bottle sources",
+    en: "Battery sources",
     th: "แหล่งที่มาของขวด",
     id: "Sumber botol",
     zh: "药瓶来源",
   },
   bottleRate: {
     vi: "1 bình = 500 HP",
-    en: "1 bottle = 500 HP",
+    en: "1 battery = 500 HP",
     th: "1 ขวด = 500 HP",
     id: "1 botol = 500 HP",
     zh: "1 瓶 = 500 HP",
@@ -204,7 +204,7 @@ export const messages = {
   },
   dailyHint: {
     vi: "Daily: 60 quảng cáo + 90 × 5 bình/ngày",
-    en: "Daily: 60 ads + 90 × 5 bottles/day",
+    en: "Daily: 60 ads + 90 × 5 batteries/day",
     th: "Daily: โฆษณา 60 + 90 × 5 ขวด/วัน",
     id: "Daily: 60 iklan + 90 × 5 botol/hari",
     zh: "Daily：60 个广告奖励 + 90 × 5 瓶/天",
@@ -253,7 +253,7 @@ export const messages = {
   },
   currentBottles: {
     vi: "Số bình hiện tại",
-    en: "Current bottles",
+    en: "Current batteries",
     th: "จำนวนขวดปัจจุบัน",
     id: "Jumlah botol saat ini",
     zh: "当前药瓶数",
@@ -293,6 +293,13 @@ export const messages = {
     id: "Waktu hingga cadangan penuh",
     zh: "储备回满时间",
   },
+  roundDown: {
+    vi: "Làm tròn xuống",
+    en: "Round down",
+    th: "ปัดเศษลง",
+    id: "Bulatkan ke bawah",
+    zh: "向下取整",
+  },
   dischargeTime: {
     vi: "Thời gian cần xả",
     en: "Time to discharge",
@@ -324,7 +331,7 @@ export const messages = {
   },
   missingBottles: {
     vi: "Bình thiếu",
-    en: "Bottles missing",
+    en: "Batteries missing",
     th: "ขวดที่ขาด",
     id: "Kekurangan botol",
     zh: "缺少药瓶",
@@ -352,21 +359,21 @@ export const messages = {
   },
   projectedBottles: {
     vi: "Tổng bình dự kiến",
-    en: "Projected total bottles",
+    en: "Projected total batteries",
     th: "จำนวนขวดรวมที่คาดการณ์",
     id: "Proyeksi total botol",
     zh: "预计药瓶总数",
   },
   bottleHp: {
     vi: "Tổng HP từ bình",
-    en: "Total HP from bottles",
+    en: "Total HP from batteries",
     th: "HP รวมจากขวด",
     id: "Total HP dari botol",
     zh: "药瓶提供的总 HP",
   },
   scenarioTotalFormula: {
     vi: "Chiến công + Máu hiện tại + HP dự trữ + HP từ bình + HP reset + Tổng HP hồi",
-    en: "Merit + Current HP + HP backup + HP from bottles + HP reset + Total HP recovered",
+    en: "Merit + Current HP + HP backup + HP from batteries + HP reset + Total HP recovered",
     th: "แต้มผลงาน + HP ปัจจุบัน + HP สำรอง + HP จากขวด + HP จากการรีเซ็ต + HP รวมที่ฟื้นฟู",
     id: "Merit + HP saat ini + Cadangan HP + HP dari botol + HP reset + Total HP pulih",
     zh: "战功 + 当前 HP + 储备 HP + 药瓶 HP + 重置 HP + 恢复的总 HP",
@@ -380,7 +387,7 @@ export const messages = {
   },
   both: {
     vi: "Mua gói 249 + mua Daily 90 × 5 bình",
-    en: "Package 249 + Daily 90 × 5 bottles",
+    en: "Package 249 + Daily 90 × 5 batteries",
     th: "ซื้อแพ็กเกจ 249 + ซื้อ Daily 90 × 5 ขวด",
     id: "Beli paket 249 + beli Daily 90 × 5 botol",
     zh: "购买 249 礼包 + 购买 Daily 90 × 5 瓶",
@@ -401,7 +408,7 @@ export const messages = {
   },
   neither: {
     vi: "Không mua gói 249 và không mua Daily 90 × 5 bình",
-    en: "No package 249 and no Daily 90 × 5 bottles",
+    en: "No package 249 and no Daily 90 × 5 batteries",
     th: "ไม่ซื้อแพ็กเกจ 249 และไม่ซื้อ Daily 90 × 5 ขวด",
     id: "Tidak beli paket 249 dan tidak beli Daily 90 × 5 botol",
     zh: "不购买 249 礼包，也不购买 Daily 90 × 5 瓶",
@@ -415,7 +422,7 @@ export const messages = {
   },
   snapshotTip: {
     vi: "Số bình hiện tại là snapshot đã gồm mọi nguồn từng nhận. Dự báo chỉ cộng phần tương lai.",
-    en: "Current bottles are a snapshot containing all sources already received. The projection only adds future sources.",
+    en: "Current batteries are a snapshot containing all sources already received. The projection only adds future sources.",
     th: "จำนวนขวดปัจจุบันเป็นยอดรวมจากทุกแหล่งที่ได้รับแล้ว การคาดการณ์จะเพิ่มเฉพาะส่วนในอนาคต",
     id: "Jumlah botol saat ini adalah total dari semua sumber yang sudah diterima. Proyeksi hanya menambahkan sumber mendatang.",
     zh: "当前药瓶数是已领取所有来源的总数。预测只会增加未来可获得的部分。",
@@ -449,7 +456,7 @@ export const messages = {
     zh: "知道了",
   },
   invalid: { vi: "—", en: "—", th: "—", id: "—", zh: "—" },
-  bottles: { vi: "bình", en: "bottles", th: "ขวด", id: "botol", zh: "瓶" },
+  bottles: { vi: "bình", en: "batteries", th: "ขวด", id: "botol", zh: "瓶" },
   hp: { vi: "HP", en: "HP", th: "HP", id: "HP", zh: "HP" },
   selected: {
     vi: "đang chọn",

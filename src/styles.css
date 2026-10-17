@@ -149,16 +149,8 @@ h1 { margin: 0; font-size: clamp(1.1rem, 2vw, 1.45rem); line-height: 1.1; letter
 .mobile-label { display: none; }
 
 .info-tip { position: relative; display: inline-grid; place-items: center; width: 16px; height: 16px; margin-left: 3px; border: 1px solid currentColor; border-radius: 50%; font: 800 .6rem/1 serif; cursor: help; opacity: .75; vertical-align: 1px; }
-.info-tip__bubble { position: absolute; left: 50%; bottom: calc(100% + 9px); z-index: 30; width: 310px; padding: 10px 12px; border-radius: 9px; color: #fff; background: #193d59; box-shadow: 0 8px 20px rgba(0,0,0,.18); font: 500 .7rem/1.45 Inter, sans-serif; text-transform: none; letter-spacing: 0; white-space: pre-line; opacity: 0; visibility: hidden; transform: translate(-50%, 4px); transition: .15s; pointer-events: none; }
-.info-tip:hover .info-tip__bubble, .info-tip:focus .info-tip__bubble { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.timing-grid > div { position: relative; }
 .calculation-details .detail-list > div { position: relative; }
-.calculation-details .info-tip { position: static; }
-.calculation-details .info-tip__bubble { left: 0; right: auto; width: min(310px, 100%); transform: translateY(4px); }
-.calculation-details .info-tip:hover .info-tip__bubble, .calculation-details .info-tip:focus .info-tip__bubble { transform: translateY(0); }
-.comparison-row .info-tip__bubble { left: -8px; width: min(400px, 75vw); text-align: left; transform: translateY(4px); }
-.comparison-row .info-tip:hover .info-tip__bubble, .comparison-row .info-tip:focus .info-tip__bubble { transform: translateY(0); }
-.comparison-heading .info-tip__bubble { left: auto; right: -8px; text-align: left; transform: translateY(4px); }
-.comparison-heading .info-tip:hover .info-tip__bubble, .comparison-heading .info-tip:focus .info-tip__bubble { transform: translateY(0); }
 
 .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; background: rgba(8,18,14,.64); backdrop-filter: blur(5px); }
 .modal { width: min(410px, 100%); padding: 28px; border-radius: 20px; text-align: center; background: white; box-shadow: 0 25px 80px rgba(0,0,0,.28); }
@@ -181,8 +173,6 @@ h1 { margin: 0; font-size: clamp(1.1rem, 2vw, 1.45rem); line-height: 1.1; letter
   .comparison-row > span { grid-column: 1 / -1; padding-bottom: 5px; border-bottom: 1px solid rgba(0,0,0,.06); }
   .comparison-row .mobile-label { display: block; margin-bottom: 4px; color: #82908a; font-size: .55rem; font-weight: 700; text-transform: uppercase; }
   .comparison-row > span { position: relative; }
-  .comparison-row > span > .info-tip { position: static; }
-  .comparison-row .info-tip__bubble { left: 0; max-width: 100%; }
 }
 
 @media (max-width: 1020px) {
@@ -215,8 +205,6 @@ h1 { margin: 0; font-size: clamp(1.1rem, 2vw, 1.45rem); line-height: 1.1; letter
   .target-columns { gap: 12px; }
   .target-columns > div + div { padding-left: 12px; }
   .detail-list { grid-template-columns: 1fr; }
-  .info-tip__bubble { width: 210px; left: auto; right: -22px; transform: translate(0, 4px); }
-  .info-tip:hover .info-tip__bubble, .info-tip:focus .info-tip__bubble { transform: translate(0, 0); }
 }
 
 @media (max-width: 390px) {
@@ -231,3 +219,5 @@ h1 { margin: 0; font-size: clamp(1.1rem, 2vw, 1.45rem); line-height: 1.1; letter
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
+
+.info-popover { position: fixed; z-index: 1000; padding: 12px 14px; border: 1px solid #52738c; border-radius: 9px; color: #fff; background: #193d59; box-shadow: 0 8px 24px rgba(0,0,0,.25); font: 500 .75rem/1.55 Inter, sans-serif; white-space: pre-line; overflow-wrap: anywhere; pointer-events: none; }

@@ -1,10 +1,54 @@
+import { useEffect, useId, useState } from 'react';
+import { createPortal } from 'react-dom';
+
 interface InfoTipProps { label: string; }
 
 export function InfoTip({ label }: InfoTipProps) {
+  const id = useId();
+  const [anchor, setAnchor] = useState<DOMRect | null>(null);
+
+  useEffect(() => {
+    if (!anchor) return;
+    const close = () => setAnchor(null);
+    window.addEventListener('scroll', close, true);
+    window.addEventListener('resize', close);
+    return () => {
+      window.removeEventListener('scroll', close, true);
+      window.removeEventListener('resize', close);
+    };
+  }, [anchor]);
+
+  const width = Math.min(360, window.innerWidth - 24);
+  const below = anchor !== null && anchor.top < 200;
+
   return (
-    <span className="info-tip" tabIndex={0} aria-label={label}>
+    <span
+      className="info-tip"
+      tabIndex={0}
+      aria-label={label}
+      aria-describedby={anchor ? id : undefined}
+      onMouseEnter={(event) => setAnchor(event.currentTarget.getBoundingClientRect())}
+      onMouseLeave={() => setAnchor(null)}
+      onFocus={(event) => setAnchor(event.currentTarget.getBoundingClientRect())}
+      onBlur={() => setAnchor(null)}
+      onClick={(event) => setAnchor(event.currentTarget.getBoundingClientRect())}
+      onKeyDown={(event) => { if (event.key === 'Escape') setAnchor(null); }}
+    >
       i
-      <span className="info-tip__bubble" role="tooltip">{label}</span>
+      {anchor && createPortal(
+        <span
+          id={id}
+          className="info-popover"
+          role="tooltip"
+          style={{
+            width,
+            left: Math.max(12, Math.min(anchor.left + anchor.width / 2 - width / 2, window.innerWidth - width - 12)),
+            top: below ? anchor.bottom + 9 : anchor.top - 9,
+            transform: below ? undefined : 'translateY(-100%)',
+          }}
+        >{label}</span>,
+        document.body,
+      )}
     </span>
   );
 }

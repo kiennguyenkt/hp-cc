@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AccountInputs } from './components/AccountInputs';
 import { Header } from './components/Header';
 import { ParameterPanel } from './components/ParameterPanel';
@@ -9,7 +9,6 @@ import { normalizeNumericInput, parseNumericDraft } from './domain/validation';
 import { translator } from './i18n';
 import { loadConfigs, loadLocale, saveConfigs, saveLocale } from './storage';
 
-type SaveStatus = 'saved' | 'saving' | 'error';
 const numberLocales: Record<Locale, string> = { vi: 'vi-VN', en: 'en-US', th: 'th-TH', id: 'id-ID', zh: 'zh-CN' };
 
 export default function App() {
@@ -17,46 +16,45 @@ export default function App() {
   const [configs, setConfigs] = useState(initial.configs);
   const [activeId, setActiveId] = useState(initial.activeId);
   const [locale, setLocale] = useState<Locale>(loadLocale);
-  const [saveStatus, setSaveStatus] = useState<SaveStatus>('saved');
+  const [savedConfigs, setSavedConfigs] = useState(initial.configs);
+  const [failedConfig, setFailedConfig] = useState<CalculatorConfig | null>(null);
   const [collapsed, setCollapsed] = useState(false);
   const [now, setNow] = useState(() => new Date());
+  const [renameDraft, setRenameDraft] = useState<{ id: string; name: string } | null>(null);
   const [showBackupNotice, setShowBackupNotice] = useState(false);
-  const latestRef = useRef({ configs, activeId });
   const t = useMemo(() => translator(locale), [locale]);
   const activeConfig = configs.find((config) => config.id === activeId) ?? configs[0];
 
-  latestRef.current = { configs, activeId };
+  const savedConfig = savedConfigs.find((config) => config.id === activeId);
+  const saveStatus = failedConfig === activeConfig
+    ? 'error'
+    : JSON.stringify(activeConfig) === JSON.stringify(savedConfig) ? 'saved' : 'unsaved';
 
-  const persist = useCallback((nextConfigs = latestRef.current.configs, nextActive = latestRef.current.activeId) => {
+  const saveCurrentConfig = () => {
+    const nextSavedConfigs = savedConfig
+      ? savedConfigs.map((config) => config.id === activeId ? activeConfig : config)
+      : [...savedConfigs, activeConfig];
     try {
-      saveConfigs(nextConfigs, nextActive);
-      setSaveStatus('saved');
+      saveConfigs(nextSavedConfigs, activeId);
+      setSavedConfigs(nextSavedConfigs);
+      setFailedConfig(null);
     } catch {
-      setSaveStatus('error');
+      setFailedConfig(activeConfig);
     }
-  }, []);
-
-  useEffect(() => {
-    setSaveStatus('saving');
-    const timer = window.setTimeout(() => persist(configs, activeId), 2000);
-    return () => window.clearTimeout(timer);
-  }, [configs, activeId, persist]);
+  };
 
   useEffect(() => {
     const refresh = () => setNow(new Date());
     const onVisible = () => { if (document.visibilityState === 'visible') refresh(); };
-    const onBeforeUnload = () => persist();
     const timer = window.setInterval(refresh, 5000);
     document.addEventListener('visibilitychange', onVisible);
     window.addEventListener('focus', refresh);
-    window.addEventListener('beforeunload', onBeforeUnload);
     return () => {
       window.clearInterval(timer);
       document.removeEventListener('visibilitychange', onVisible);
       window.removeEventListener('focus', refresh);
-      window.removeEventListener('beforeunload', onBeforeUnload);
     };
-  }, [persist]);
+  }, []);
 
   useEffect(() => { document.documentElement.lang = locale; }, [locale]);
 
@@ -93,12 +91,10 @@ export default function App() {
   };
 
   const selectConfig = (id: string) => {
-    persist(configs, activeId);
     setActiveId(id);
   };
 
   const addConfig = () => {
-    persist(configs, activeId);
     const clone = { ...activeConfig, id: crypto.randomUUID() };
     const next = [...configs, clone];
     setConfigs(next);
@@ -117,8 +113,8 @@ export default function App() {
   return (
     <div className="app-shell">
       <Header
-        configIds={configs.map((config) => config.id)} activeId={activeId} locale={locale} saveStatus={saveStatus}
-        onSelect={selectConfig} onAdd={addConfig} onLocaleChange={changeLocale} t={t}
+        configs={configs} activeId={activeId} locale={locale} saveStatus={saveStatus}
+        onRename={() => setRenameDraft({ id: activeId, name: activeConfig.name })} onSave={saveCurrentConfig} onSelect={selectConfig} onAdd={addConfig} onLocaleChange={changeLocale} t={t}
       />
       <main className={collapsed ? 'workspace is-collapsed' : 'workspace'}>
         <ParameterPanel
@@ -131,6 +127,35 @@ export default function App() {
           <ResultsDashboard result={result} config={activeConfig} format={format} t={t} />
         </div>
       </main>
+
+      {renameDraft && (
+        <div className="modal-backdrop" onClick={() => setRenameDraft(null)} onKeyDown={(event) => { if (event.key === 'Escape') setRenameDraft(null); }}>
+          <form
+            className="modal rename-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="rename-title"
+            onClick={(event) => event.stopPropagation()}
+            onSubmit={(event) => {
+              event.preventDefault();
+              const name = renameDraft.name.trim();
+              if (!name) return;
+              setConfigs((current) => current.map((config) => config.id === renameDraft.id ? { ...config, name } : config));
+              setRenameDraft(null);
+            }}
+          >
+            <h2 id="rename-title">{t('renameConfig')}</h2>
+            <label className="field">
+              <span>{t('configName')}</span>
+              <input autoFocus required maxLength={60} value={renameDraft.name} onChange={(event) => setRenameDraft({ ...renameDraft, name: event.target.value })} />
+            </label>
+            <div className="modal-actions">
+              <button type="button" className="modal-cancel" onClick={() => setRenameDraft(null)}>{t('cancel')}</button>
+              <button type="submit" disabled={!renameDraft.name.trim()}>{t('rename')}</button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {showBackupNotice && (
         <div className="modal-backdrop" role="presentation" onMouseDown={() => setShowBackupNotice(false)}>

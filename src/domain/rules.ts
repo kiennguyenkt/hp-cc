@@ -14,6 +14,7 @@ export const GUILD_BOTTLE_TOTALS = [
 export function createDefaultConfig(id: string = crypto.randomUUID()): CalculatorConfig {
   return {
     id,
+    name: '',
     currentMerit: '0',
     maxHpReset: '237300',
     currentHp: '237469',

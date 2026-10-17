@@ -3,6 +3,7 @@ export type MaxGuildLevel = 27 | 40;
 
 export interface CalculatorConfig {
   id: string;
+  name: string;
   currentMerit: string;
   maxHpReset: string;
   currentHp: string;

@@ -1,32 +1,13 @@
-import { GUILD_BOTTLE_TOTALS, HP_PER_BOTTLE } from './rules';
+import { calculateBottleResources, HP_PER_BOTTLE } from './bottleResources';
+import { calculateGuildBonus } from './guildBonus';
+import { calculateHpDischarge } from './hpDischarge';
 import type { CalculatorConfig, CalculatorResult, ScenarioTotal, TargetGap } from './types';
 import { parseNumericDraft } from './validation';
-
-function parseEndDate(value: string): Date | null {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
-  if (!match) return null;
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
-  const date = new Date(year, month - 1, day, 20, 0, 0, 0);
-  if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return null;
-  return date;
-}
-
-function calendarDayDifference(from: Date, to: Date): number {
-  const fromDay = Date.UTC(from.getFullYear(), from.getMonth(), from.getDate());
-  const toDay = Date.UTC(to.getFullYear(), to.getMonth(), to.getDate());
-  return Math.max(0, Math.round((toDay - fromDay) / 86_400_000));
-}
-
-function add(...values: Array<number | null>): number | null {
-  return values.some((value) => value === null)
-    ? null
-    : (values as number[]).reduce((total, value) => total + value, 0);
-}
+import { calculateEventTimeRemaining } from './eventTime';
+import { sumOrNull } from '../shared/math';
 
 function scenario(current: number | null, extraMaxHp: number | null): ScenarioTotal {
-  return { current, max: add(current, extraMaxHp) };
+  return { current, max: sumOrNull(current, extraMaxHp) };
 }
 
 function targetGap(target: number, total: number | null): TargetGap {
@@ -43,50 +24,34 @@ export function calculate(config: CalculatorConfig, now = new Date()): Calculato
   const currentBottles = parseNumericDraft(config.currentBottles);
   const recoveryLimit = parseNumericDraft(config.recoveryLimit);
   const guildLevel = parseNumericDraft(config.guildLevel);
-  const end = parseEndDate(config.endDate);
-
-  const daysRemaining = end ? calendarDayDifference(now, end) : null;
-  const minutesRemaining = end
-    ? Math.max(0, Math.floor((end.getTime() - now.getTime()) / 60_000))
-    : null;
-  const hoursRemaining = end
-    ? Math.max(0, Math.round((end.getTime() - now.getTime()) / 3_600_000))
-    : null;
+  const { daysRemaining, minutesRemaining, hoursRemaining } = calculateEventTimeRemaining(config.endDate, now);
   const recoveryHp = hoursRemaining === null ? null : hoursRemaining * 60 * config.recoveryRate;
   const resetHp = daysRemaining === null || resetPerDay === null ? null : daysRemaining * resetPerDay;
 
-  const dailyBottles = 60 + (config.buyDailyDiamonds ? 90 * 5 : 0);
-  const futureDailyBottles = daysRemaining === null ? null : daysRemaining * dailyBottles;
-  const packagePerDay = config.buyPackage249 ? 210 : 10;
-  const futurePackageBottles = daysRemaining === null ? null : daysRemaining * packagePerDay;
-  const totalBottles = add(currentBottles, futureDailyBottles, futurePackageBottles);
-  const totalBottleHp = totalBottles === null ? null : totalBottles * HP_PER_BOTTLE;
+  const {
+    dailyBottles, futureDailyBottles, futurePackageBottles, totalBottles, totalBottleHp,
+    baseBottleHp, paidPackageHp, paidDailyHp,
+  } = calculateBottleResources({
+    currentBottles,
+    daysRemaining,
+    buyPackage249: config.buyPackage249,
+    buyDailyDiamonds: config.buyDailyDiamonds,
+  });
+  const { extraMaxBottles, extraMaxHp } = calculateGuildBonus(guildLevel, config.maxGuildLevel);
+  const projectedCurrent = sumOrNull(merit, currentHp, hpBackup, totalBottleHp, resetHp, recoveryHp);
+  const projectedMax = sumOrNull(projectedCurrent, extraMaxHp);
 
-  const validGuildLevel = guildLevel !== null && guildLevel <= config.maxGuildLevel ? guildLevel : null;
-  const extraMaxBottles = validGuildLevel === null
-    ? null
-    : GUILD_BOTTLE_TOTALS[config.maxGuildLevel] - GUILD_BOTTLE_TOTALS[validGuildLevel];
-  const extraMaxHp = extraMaxBottles === null ? null : extraMaxBottles * HP_PER_BOTTLE;
-  const projectedCurrent = add(merit, currentHp, hpBackup, totalBottleHp, resetHp, recoveryHp);
-  const projectedMax = add(projectedCurrent, extraMaxHp);
+  const { hoursToFill, dischargeHours, dischargeHp } = calculateHpDischarge({
+    hpBackup,
+    recoveryLimit,
+    recoveryRate: config.recoveryRate,
+    hoursRemaining,
+  });
 
-  const hoursToFill = hpBackup === null || recoveryLimit === null
-    ? null
-    : Math.floor((recoveryLimit - hpBackup) / (config.recoveryRate * 60));
-  const dischargeHours = hoursRemaining === null || hoursToFill === null
-    ? null
-    : hoursRemaining - hoursToFill + 2;
-  const dischargeHp = dischargeHours === null ? null : dischargeHours * config.recoveryRate * 60;
-
-  const alwaysBottleHp = daysRemaining === null || currentBottles === null
-    ? null
-    : (currentBottles + daysRemaining * (60 + 10)) * HP_PER_BOTTLE;
-  const base = add(merit, currentHp, hpBackup, alwaysBottleHp, resetHp, recoveryHp);
-  const paidPackageHp = daysRemaining === null ? null : daysRemaining * 200 * HP_PER_BOTTLE;
-  const paidDailyHp = daysRemaining === null ? null : daysRemaining * 90 * 5 * HP_PER_BOTTLE;
-  const bothCurrent = add(base, paidPackageHp, paidDailyHp);
-  const noPackageCurrent = add(base, paidDailyHp);
-  const noDailyCurrent = add(base, paidPackageHp);
+  const base = sumOrNull(merit, currentHp, hpBackup, baseBottleHp, resetHp, recoveryHp);
+  const bothCurrent = sumOrNull(base, paidPackageHp, paidDailyHp);
+  const noPackageCurrent = sumOrNull(base, paidDailyHp);
+  const noDailyCurrent = sumOrNull(base, paidPackageHp);
 
   const scenarios = {
     both: scenario(bothCurrent, extraMaxHp),

@@ -1,5 +1,5 @@
 import type { CalculatorConfig, CalculatorResult } from '../domain/types';
-import { HP_PER_BOTTLE } from '../domain/rules';
+import { HP_PER_BOTTLE } from '../domain/bottleResources';
 import { parseNumericDraft } from '../domain/validation';
 import type { TranslationKey } from '../i18n';
 import { InfoTip } from './InfoTip';

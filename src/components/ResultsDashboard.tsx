@@ -53,17 +53,38 @@ export function ResultsDashboard({ result, config, format, t }: ResultsProps) {
 
   return (
     <div className="results-stack">
-      <div className="results-overview">
-        <section className="card details-card">
-          <div className="section-heading"><h2>{t('details')}</h2><span className="section-index">02</span></div>
+      <section className="summary-card card">
+        <div className="section-heading section-heading--light"><h2>{t('projectedTitle')}</h2><span className="section-index">02</span></div>
+        <details className="calculation-details result-accordion">
+          <summary className="accordion-heading"><h3>{t('details')}</h3></summary>
           <div className="detail-list">
             <div><span>{t('projectedBottles')} <InfoTip label={bottlesFormula} /></span><strong>{format(result.totalBottles)}</strong></div>
             <div><span>{t('bottleHp')} <InfoTip label={bottleHpFormula} /></span><strong>{format(result.totalBottleHp)}</strong></div>
             <div><span>{t('hpReset')} <InfoTip label={resetFormula} /></span><strong>{format(result.resetHp)}</strong></div>
             <div><span>{t('hpRecovered')} <InfoTip label={recoveryFormula} /></span><strong>{format(result.recoveryHp)}</strong></div>
           </div>
+        </details>
+        <div className="projection-grid">
+          <div className="projection">
+            <span>{t('currentLevel')}</span><strong>{format(result.projectedCurrent)}</strong><small>HP</small>
+          </div>
+          <div className="projection">
+            <span>{t('guildMax')} <InfoTip label={t('maxTip')} /></span><strong>{format(result.projectedMax)}</strong><small>HP</small>
+          </div>
+        </div>
+        <div className="timing-grid">
+          <div><span>{t('fillTime')}</span><strong>{format(result.hoursToFill)} <small>{t('hours')}</small></strong></div>
+          <div className="timing-accent"><span>{t('dischargeTime')}</span><strong>{format(result.dischargeHours)} <small>{t('hours')}</small></strong></div>
+          <div><span>{t('dischargeHp')}</span><strong>{format(result.dischargeHp)} <small>HP</small></strong></div>
+        </div>
+      </section>
 
-          <div className="comparison-heading"><h3>{t('comparisons')}</h3><span>{t('currentLevel')}</span><span>{t('guildMax')} <InfoTip label={extraBottlesFormula} /></span></div>
+      <details className="card comparison-card result-accordion">
+        <summary className="accordion-heading section-heading">
+          <h2>{t('comparisons')}</h2><span className="section-index">03</span>
+        </summary>
+        <div className="comparison-content">
+          <div className="comparison-heading"><span aria-hidden="true" /><span>{t('currentLevel')}</span><span>{t('guildMax')} <InfoTip label={extraBottlesFormula} /></span></div>
           <div className="comparison-table">
             {scenarioKeys.map((key) => (
               <div className={key === selectedScenario ? 'comparison-row is-current' : 'comparison-row'} key={key}>
@@ -73,26 +94,8 @@ export function ResultsDashboard({ result, config, format, t }: ResultsProps) {
               </div>
             ))}
           </div>
-        </section>
-
-        <section className="summary-card card">
-          <div className="section-heading section-heading--light"><h2>{t('projectedTitle')}</h2><span className="section-index">03</span></div>
-          <div className="projection-grid">
-            <div className="projection">
-              <span>{t('currentLevel')}</span><strong>{format(result.projectedCurrent)}</strong><small>HP</small>
-            </div>
-            <div className="projection">
-              <span>{t('guildMax')} <InfoTip label={t('maxTip')} /></span><strong>{format(result.projectedMax)}</strong><small>HP</small>
-            </div>
-          </div>
-          <div className="timing-grid">
-            <div><span>{t('fillTime')}</span><strong>{format(result.hoursToFill)} <small>{t('hours')}</small></strong></div>
-            <div className="timing-accent"><span>{t('dischargeTime')}</span><strong>{format(result.dischargeHours)} <small>{t('hours')}</small></strong></div>
-            <div><span>{t('dischargeHp')}</span><strong>{format(result.dischargeHp)} <small>HP</small></strong></div>
-          </div>
-        </section>
-
-      </div>
+        </div>
+      </details>
 
       <section className="card targets-card">
         <div className="section-heading"><h2>{t('targets')}</h2><span className="section-index">04</span></div>

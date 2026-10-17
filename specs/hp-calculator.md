@@ -209,9 +209,9 @@ Calculator tự cập nhật `now` mỗi `5 giây`, đồng thời cập nhật 
 
 Giá trị `3.617.948` ở dòng không nạp trong file Excel đã trừ `3 × 210 × 500 = 315.000`, tức vừa dùng toàn bộ `3 ngày` thay vì `2 ngày còn lại`, vừa trừ cả `10 bình/ngày` free. Theo quy tắc đã chốt, giá trị đúng là `3.732.948`, chỉ trừ `2 × 200 × 500 = 200.000`. Các số âm ở phần mốc mục tiêu trong file Excel cũ không được giữ trên UI; chúng được chuẩn hóa về `0`. Quy tắc này không áp dụng cho `Thời gian cần xả` và `HP cần xả`, là hai kết quả được phép âm.
 
-## Wireframe đề xuất
+## Wireframe
 
-Xem [wireframe.md](./wireframe.md). Đây là bản đề xuất bố cục để review, chưa phải giao diện đã chốt.
+Xem [wireframe.md](./wireframe.md) để theo dõi bố cục desktop/mobile và tương tác của giao diện hiện tại.
 
 ## Định hướng tổ chức code
 

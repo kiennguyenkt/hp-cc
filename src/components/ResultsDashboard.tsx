@@ -22,6 +22,34 @@ export function ResultsDashboard({ result, config, format, t }: ResultsProps) {
   const packageBottlesPerDay = config.buyPackage249 ? 210 : 10;
   const bottlesFormula = `${format(parseNumericDraft(config.currentBottles))} + ${format(result.daysRemaining)} × ${format(result.dailyBottles)} (Daily) + ${format(result.daysRemaining)} × ${format(packageBottlesPerDay)} (249/free) = ${format(result.totalBottles)} ${t('bottles')}`;
   const bottleHpFormula = `${format(result.totalBottles)} ${t('bottles')} × ${format(HP_PER_BOTTLE)} HP = ${format(result.totalBottleHp)} HP`;
+  const currentBottles = parseNumericDraft(config.currentBottles);
+  // The comparison baseline always includes both purchases, regardless of the selected toggles.
+  const fullBottleHp = currentBottles === null || result.daysRemaining === null
+    ? null
+    : (currentBottles + result.daysRemaining * (60 + 90 * 5 + 210)) * HP_PER_BOTTLE;
+  const extraBottlesFormula = `+${format(result.extraMaxHp)} HP (${format(result.extraMaxBottles)} ${t('bottles')})`;
+  const scenarioFormula = (key: typeof scenarioKeys[number]) => {
+    const total = `${format(result.scenarios[key].current)} HP`;
+    if (key === 'both') {
+      const terms = [
+        parseNumericDraft(config.currentMerit),
+        parseNumericDraft(config.currentHp),
+        parseNumericDraft(config.hpBackup),
+        fullBottleHp,
+        result.resetHp,
+        result.recoveryHp,
+      ];
+      return `${t('scenarioTotalFormula')}\n${terms.map(format).join(' + ')} = ${total}`;
+    }
+    const deductions = [];
+    if (key === 'noPackage' || key === 'neither') {
+      deductions.push(`200 × ${format(result.daysRemaining)} × ${format(HP_PER_BOTTLE)}`);
+    }
+    if (key === 'noDaily' || key === 'neither') {
+      deductions.push(`90 × 5 × ${format(result.daysRemaining)} × ${format(HP_PER_BOTTLE)}`);
+    }
+    return `${format(result.scenarios.both.current)} − ${deductions.join(' − ')} = ${total}`;
+  };
 
   return (
     <div className="results-stack">
@@ -35,11 +63,11 @@ export function ResultsDashboard({ result, config, format, t }: ResultsProps) {
             <div><span>{t('hpRecovered')} <InfoTip label={recoveryFormula} /></span><strong>{format(result.recoveryHp)}</strong></div>
           </div>
 
-          <div className="comparison-heading"><h3>{t('comparisons')}</h3><span>{t('currentLevel')}</span><span>{t('guildMax')}</span></div>
+          <div className="comparison-heading"><h3>{t('comparisons')}</h3><span>{t('currentLevel')}</span><span>{t('guildMax')} <InfoTip label={extraBottlesFormula} /></span></div>
           <div className="comparison-table">
             {scenarioKeys.map((key) => (
               <div className={key === selectedScenario ? 'comparison-row is-current' : 'comparison-row'} key={key}>
-                <span>{t(key)} {key === selectedScenario && <em>{t('currentScenario')}</em>}</span>
+                <span>{t(key)} <InfoTip label={scenarioFormula(key)} /> {key === selectedScenario && <em>{t('currentScenario')}</em>}</span>
                 <strong><small className="mobile-label">{t('currentLevel')}</small>{format(result.scenarios[key].current)}</strong>
                 <strong><small className="mobile-label">{t('guildMax')}</small>{format(result.scenarios[key].max)}</strong>
               </div>

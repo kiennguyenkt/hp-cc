@@ -364,6 +364,13 @@ export const messages = {
     id: "Total HP dari botol",
     zh: "药瓶提供的总 HP",
   },
+  scenarioTotalFormula: {
+    vi: "Chiến công + Máu hiện tại + HP dự trữ + HP từ bình + HP reset + Tổng HP hồi",
+    en: "Merit + Current HP + HP backup + HP from bottles + HP reset + Total HP recovered",
+    th: "แต้มผลงาน + HP ปัจจุบัน + HP สำรอง + HP จากขวด + HP จากการรีเซ็ต + HP รวมที่ฟื้นฟู",
+    id: "Merit + HP saat ini + Cadangan HP + HP dari botol + HP reset + Total HP pulih",
+    zh: "战功 + 当前 HP + 储备 HP + 药瓶 HP + 重置 HP + 恢复的总 HP",
+  },
   comparisons: {
     vi: "So sánh kịch bản",
     en: "Scenario comparison",

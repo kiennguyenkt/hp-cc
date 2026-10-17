@@ -1,4 +1,4 @@
-import { createDefaultConfig } from './domain/rules';
+import { createDefaultConfig } from './domain/defaultConfig';
 import type { CalculatorConfig, Locale } from './domain/types';
 
 const CONFIG_KEY = 'hp-calculator:configs:v1';

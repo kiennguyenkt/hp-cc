@@ -1,4 +1,4 @@
-import { RECOVERY_RATE_OPTIONS } from '../domain/rules';
+import { RECOVERY_RATE_OPTIONS } from '../domain/defaultConfig';
 import type { CalculatorConfig } from '../domain/types';
 import type { TranslationKey } from '../i18n';
 

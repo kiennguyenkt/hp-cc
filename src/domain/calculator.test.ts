@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { calculate } from './calculator';
-import { createDefaultConfig } from './rules';
+import { createDefaultConfig } from './defaultConfig';
 
 describe('calculate', () => {
   it.each([

@@ -3,7 +3,7 @@ import type { CalculatorConfig } from './types';
 export const DEFAULT_END_DATE = '2026-10-18';
 export const RECOVERY_RATE_OPTIONS = [320] as const;
 
-export function createDefaultConfig(id: string = crypto.randomUUID()): CalculatorConfig {
+export function createDefaultFormValue(id: string = crypto.randomUUID()): CalculatorConfig {
   return {
     id,
     name: '',

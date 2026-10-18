@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { translator } from '../i18n';
 import type { ResultWithFormula, FormulaFormat } from './resultWithFormula';
 import { calculate } from './calculator';
-import { createDefaultConfig } from './defaultConfig';
+import { createDefaultFormValue } from './defaultFormValue';
 import type { CalculatorConfig, Locale } from './types';
 
 const now = new Date(2026, 9, 16, 16);
 const config: CalculatorConfig = {
-  ...createDefaultConfig('formulas'),
+  ...createDefaultFormValue('formulas'),
   currentMerit: '100', currentHp: '200', hpBackup: '300', currentBottles: '10',
   maxHpReset: '1000', recoveryLimit: '38700', guildLevel: '26', maxGuildLevel: 27,
   endDate: '2026-10-18', recoveryRate: 320, buyPackage249: true, buyDailyDiamonds: true,

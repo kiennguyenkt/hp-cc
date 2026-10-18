@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { calculate } from './calculator';
-import { createDefaultConfig } from './defaultConfig';
+import { createDefaultFormValue } from './defaultFormValue';
 
 // Keep rule tests independent of changes to the app's default account.
 const createTestConfig = () => ({
-  ...createDefaultConfig('test'), currentBottles: '2000', guildLevel: '0', maxGuildLevel: 27 as const,
+  ...createDefaultFormValue('test'), currentBottles: '2000', guildLevel: '0', maxGuildLevel: 27 as const,
 });
 
 describe('calculate', () => {

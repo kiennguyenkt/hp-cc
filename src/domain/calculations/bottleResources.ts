@@ -1,4 +1,5 @@
-import { sumOrNull } from '../shared/math';
+import { sumOrNull } from '../../shared/math';
+import { createResultWithFormula as resultWithFormula, type FormulaFormat } from '../resultWithFormula';
 
 export const HP_PER_BOTTLE = 500;
 export const FREE_DAILY_BOTTLES = 60;
@@ -9,6 +10,14 @@ export const PAID_PACKAGE_BOTTLES = 200;
 
 export function bottlesToHp(bottles: number | null): number | null {
   return bottles === null ? null : bottles * HP_PER_BOTTLE;
+}
+
+export function calculateBottleHp(bottles: number | null) {
+  const bottleHpValue = bottlesToHp(bottles);
+  const bottleHpFormula = (value: number | null, { formatNumber: f, label: l }: FormulaFormat) =>
+    `${f(bottles)} ${l('bottles')} × ${f(HP_PER_BOTTLE)} HP = ${f(value)} HP`;
+
+  return resultWithFormula(bottleHpValue, bottleHpFormula);
 }
 
 interface BottleResourceInputs {
@@ -26,19 +35,16 @@ export function calculateBottleResources({
   const packagePerDay = FREE_PACKAGE_BOTTLES + (buyPackage249 ? PAID_PACKAGE_BOTTLES : 0);
   const futureDailyBottles = daysRemaining === null ? null : daysRemaining * dailyBottles;
   const futurePackageBottles = daysRemaining === null ? null : daysRemaining * packagePerDay;
-  const totalBottles = sumOrNull(currentBottles, futureDailyBottles, futurePackageBottles);
-  const baseFutureBottles = daysRemaining === null
-    ? null
-    : daysRemaining * (FREE_DAILY_BOTTLES + FREE_PACKAGE_BOTTLES);
+  const totalBottlesValue = sumOrNull(currentBottles, futureDailyBottles, futurePackageBottles);
+  const totalBottlesFormula = (value: number | null, { formatNumber: f, label: l }: FormulaFormat) =>
+    `${f(currentBottles)} + ${f(daysRemaining)} × ${f(dailyBottles)} (Daily) + ${f(daysRemaining)} × ${f(packagePerDay)} (249/free) = ${f(value)} ${l('bottles')}`;
+  const totalBottles = resultWithFormula(totalBottlesValue, totalBottlesFormula);
 
   return {
     dailyBottles,
     futureDailyBottles,
     futurePackageBottles,
     totalBottles,
-    totalBottleHp: bottlesToHp(totalBottles),
-    baseBottleHp: bottlesToHp(sumOrNull(currentBottles, baseFutureBottles)),
-    paidPackageHp: bottlesToHp(daysRemaining === null ? null : daysRemaining * PAID_PACKAGE_BOTTLES),
-    paidDailyHp: bottlesToHp(daysRemaining === null ? null : daysRemaining * paidDailyBottles),
+    totalBottleHp: calculateBottleHp(totalBottles.value),
   };
 }

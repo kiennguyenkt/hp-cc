@@ -1,4 +1,4 @@
-import { parseLocalDate } from '../shared/date';
+import { parseLocalDate } from '../../shared/date';
 
 export function resolveEventEndTime(value: string): Date | null {
   const date = parseLocalDate(value);

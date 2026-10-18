@@ -124,7 +124,7 @@ export default function App() {
         />
         <div className="main-column">
           <AccountInputs config={activeConfig} onChange={handleNumericChange} onBlur={normalizeFields} t={t} />
-          <ResultsDashboard result={result} config={activeConfig} format={format} t={t} />
+          <ResultsDashboard result={result} format={format} t={t} />
         </div>
       </main>
 

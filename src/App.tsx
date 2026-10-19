@@ -14,41 +14,85 @@ import styles from './App.module.css';
 
 export default function App() {
   const [collapsed, setCollapsed] = useState(false);
-  const [renameDraft, setRenameDraft] = useState<{ id: string; name: string } | null>(null);
+  const [renameDraft, setRenameDraft] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   const {
-    configs, activeId, activeConfig, saveStatus,
-    updateActive, saveCurrentConfig, selectConfig, addConfig, renameConfig,
+    configs,
+    activeId,
+    activeConfig,
+    saveStatus,
+    updateActive,
+    saveCurrentConfig,
+    selectConfig,
+    addConfig,
+    renameConfig,
   } = useCalculatorProfiles();
   const {
-    handleNumericChange, handleParameterChange, normalizeField,
-    showBackupNotice, dismissBackupNotice,
+    handleNumericChange,
+    handleParameterChange,
+    normalizeField,
+    showBackupNotice,
+    dismissBackupNotice,
   } = useCalculatorInputHandlers(activeConfig, updateActive);
 
   const now = useCalculatorCurrentTime();
   const { locale, changeLocale, t, format } = useLocale();
-  const result = useMemo(() => calculate(activeConfig, now), [activeConfig, now]);
+  const result = useMemo(
+    () => calculate(activeConfig, now),
+    [activeConfig, now],
+  );
 
   return (
     <div className={styles.appShell}>
       <Header
-        configs={configs} activeId={activeId} locale={locale} saveStatus={saveStatus}
-        onRename={() => setRenameDraft({ id: activeId, name: activeConfig.name })} onSave={saveCurrentConfig} onSelect={selectConfig} onAdd={addConfig} onLocaleChange={changeLocale} t={t}
+        configs={configs}
+        activeId={activeId}
+        locale={locale}
+        saveStatus={saveStatus}
+        onRename={() =>
+          setRenameDraft({ id: activeId, name: activeConfig.name })
+        }
+        onSave={saveCurrentConfig}
+        onSelect={selectConfig}
+        onAdd={addConfig}
+        onLocaleChange={changeLocale}
+        t={t}
       />
       <main className={cx(styles.workspace, collapsed && styles.isCollapsed)}>
         <ParameterPanel
-          config={activeConfig} collapsed={collapsed} daysRemaining={result.daysRemaining} hoursRemaining={result.hoursRemaining}
-          extraBottles={result.extraMaxBottles} onToggle={() => setCollapsed((value) => !value)} onChange={handleParameterChange}
-          onGuildBlur={() => normalizeField('guildLevel')} format={format} t={t}
+          config={activeConfig}
+          collapsed={collapsed}
+          daysRemaining={result.daysRemaining}
+          hoursRemaining={result.hoursRemaining}
+          extraBottles={result.extraMaxBottles}
+          onToggle={() => setCollapsed((value) => !value)}
+          onChange={handleParameterChange}
+          onGuildBlur={() => normalizeField('guildLevel')}
+          format={format}
+          t={t}
         />
         <div className={styles.mainColumn}>
-          <AccountInputs config={activeConfig} onChange={handleNumericChange} onBlur={normalizeField} t={t} />
+          <AccountInputs
+            config={activeConfig}
+            onChange={handleNumericChange}
+            onBlur={normalizeField}
+            t={t}
+          />
           <ResultsDashboard result={result} format={format} t={t} />
         </div>
       </main>
 
       {renameDraft && (
-        <div className={styles.modalBackdrop} onClick={() => setRenameDraft(null)} onKeyDown={(event) => { if (event.key === 'Escape') setRenameDraft(null); }}>
+        <div
+          className={styles.modalBackdrop}
+          onClick={() => setRenameDraft(null)}
+          onKeyDown={(event) => {
+            if (event.key === 'Escape') setRenameDraft(null);
+          }}
+        >
           <form
             className={cx(styles.modal, styles.renameModal)}
             role="dialog"
@@ -66,23 +110,51 @@ export default function App() {
             <h2 id="rename-title">{t('renameConfig')}</h2>
             <label className={cx(shared.field, styles.renameField)}>
               <span>{t('configName')}</span>
-              <input autoFocus required maxLength={60} value={renameDraft.name} onChange={(event) => setRenameDraft({ ...renameDraft, name: event.target.value })} />
+              <input
+                autoFocus
+                required
+                maxLength={60}
+                value={renameDraft.name}
+                onChange={(event) =>
+                  setRenameDraft({ ...renameDraft, name: event.target.value })
+                }
+              />
             </label>
             <div className={styles.modalActions}>
-              <button type="button" className={styles.modalCancel} onClick={() => setRenameDraft(null)}>{t('cancel')}</button>
-              <button type="submit" disabled={!renameDraft.name.trim()}>{t('rename')}</button>
+              <button
+                type="button"
+                className={styles.modalCancel}
+                onClick={() => setRenameDraft(null)}
+              >
+                {t('cancel')}
+              </button>
+              <button type="submit" disabled={!renameDraft.name.trim()}>
+                {t('rename')}
+              </button>
             </div>
           </form>
         </div>
       )}
 
       {showBackupNotice && (
-        <div className={styles.modalBackdrop} role="presentation" onMouseDown={dismissBackupNotice}>
-          <div className={styles.modal} role="alertdialog" aria-modal="true" aria-labelledby="backup-title" onMouseDown={(event) => event.stopPropagation()}>
+        <div
+          className={styles.modalBackdrop}
+          role="presentation"
+          onMouseDown={dismissBackupNotice}
+        >
+          <div
+            className={styles.modal}
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="backup-title"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
             <span className={styles.modalIcon}>!</span>
             <h2 id="backup-title">{t('backupAdjustedTitle')}</h2>
             <p>{t('backupAdjustedBody')}</p>
-            <button type="button" autoFocus onClick={dismissBackupNotice}>{t('close')}</button>
+            <button type="button" autoFocus onClick={dismissBackupNotice}>
+              {t('close')}
+            </button>
           </div>
         </div>
       )}

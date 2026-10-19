@@ -20,10 +20,18 @@ const fields: Array<{ field: NumericField; label: TranslationKey }> = [
   { field: 'recoveryLimit', label: 'recoveryLimit' },
 ];
 
-export function AccountInputs({ config, onChange, onBlur, t }: AccountInputsProps) {
+export function AccountInputs({
+  config,
+  onChange,
+  onBlur,
+  t,
+}: AccountInputsProps) {
   return (
     <section className={cx(shared.card, styles.accountCard)}>
-      <div className={shared.sectionHeading}><h2>{t('accountData')}</h2><span className={shared.sectionIndex}>01</span></div>
+      <div className={shared.sectionHeading}>
+        <h2>{t('accountData')}</h2>
+        <span className={shared.sectionIndex}>01</span>
+      </div>
       <div className={styles.accountGrid}>
         {fields.map(({ field, label }) => (
           <label className={shared.field} key={field}>

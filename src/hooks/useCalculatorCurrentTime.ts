@@ -6,7 +6,9 @@ export function useCalculatorCurrentTime() {
 
   useEffect(() => {
     const refresh = () => setNow(new Date());
-    const onVisible = () => { if (document.visibilityState === 'visible') refresh(); };
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') refresh();
+    };
     const timer = window.setInterval(refresh, 5000);
     document.addEventListener('visibilitychange', onVisible);
     window.addEventListener('focus', refresh);

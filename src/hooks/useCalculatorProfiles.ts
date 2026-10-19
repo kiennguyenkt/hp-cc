@@ -8,20 +8,35 @@ export function useCalculatorProfiles() {
   const [configs, setConfigs] = useState(initial.configs);
   const [activeId, setActiveId] = useState(initial.activeId);
   const [savedConfigs, setSavedConfigs] = useState(initial.configs);
-  const [failedConfig, setFailedConfig] = useState<CalculatorConfig | null>(null);
-  const activeConfig = configs.find((config) => config.id === activeId) ?? configs[0];
+  const [failedConfig, setFailedConfig] = useState<CalculatorConfig | null>(
+    null,
+  );
+  const activeConfig =
+    configs.find((config) => config.id === activeId) ?? configs[0];
   const savedConfig = savedConfigs.find((config) => config.id === activeId);
-  const saveStatus: 'error' | 'saved' | 'unsaved' = failedConfig === activeConfig
-    ? 'error'
-    : JSON.stringify(activeConfig) === JSON.stringify(savedConfig) ? 'saved' : 'unsaved';
+  const saveStatus: 'error' | 'saved' | 'unsaved' =
+    failedConfig === activeConfig
+      ? 'error'
+      : JSON.stringify(activeConfig) === JSON.stringify(savedConfig)
+        ? 'saved'
+        : 'unsaved';
 
-  const updateActive = useCallback((patch: Partial<CalculatorConfig>) => {
-    setConfigs((current) => current.map((config) => config.id === activeId ? { ...config, ...patch } : config));
-  }, [activeId]);
+  const updateActive = useCallback(
+    (patch: Partial<CalculatorConfig>) => {
+      setConfigs((current) =>
+        current.map((config) =>
+          config.id === activeId ? { ...config, ...patch } : config,
+        ),
+      );
+    },
+    [activeId],
+  );
 
   const saveCurrentConfig = () => {
     const nextSavedConfigs = savedConfig
-      ? savedConfigs.map((config) => config.id === activeId ? activeConfig : config)
+      ? savedConfigs.map((config) =>
+          config.id === activeId ? activeConfig : config,
+        )
       : [...savedConfigs, activeConfig];
     try {
       saveConfigs(nextSavedConfigs, activeId);
@@ -41,11 +56,22 @@ export function useCalculatorProfiles() {
   const renameConfig = (id: string, name: string) => {
     const trimmedName = name.trim();
     if (!trimmedName) return;
-    setConfigs((current) => current.map((config) => config.id === id ? { ...config, name: trimmedName } : config));
+    setConfigs((current) =>
+      current.map((config) =>
+        config.id === id ? { ...config, name: trimmedName } : config,
+      ),
+    );
   };
 
   return {
-    configs, activeId, activeConfig, saveStatus,
-    updateActive, saveCurrentConfig, addConfig, renameConfig, selectConfig: setActiveId,
+    configs,
+    activeId,
+    activeConfig,
+    saveStatus,
+    updateActive,
+    saveCurrentConfig,
+    addConfig,
+    renameConfig,
+    selectConfig: setActiveId,
   };
 }

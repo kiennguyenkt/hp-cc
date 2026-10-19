@@ -1,20 +1,98 @@
-.comparisonDetails { position: relative; z-index: 2; margin-top: 14px; padding: 8px 14px; border: 1px solid #d3d9d2; border-radius: 12px; color: var(--ink); background: #dddedc; }
-.comparisonContent { padding-top: 4px; }
-.comparisonHeading { margin-top: 0; padding: 0 12px 9px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr); gap: 14px; color: #66869f; font-size: .62rem; text-transform: uppercase; letter-spacing: .07em; }
-.comparisonHeading > span { text-align: right; }
-.comparisonTable { display: grid; gap: 6px; }
-.comparisonRow { min-height: 45px; padding: 10px 12px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 14px; border-radius: 10px; background: #edf5fc; font-size: .72rem; }
-.comparisonRow > span { color: #456780; font-weight: 700; }
-.comparisonRow strong { text-align: right; font-variant-numeric: tabular-nums; }
-.comparisonRow em { margin-left: 7px; padding: 3px 6px; border-radius: 10px; color: var(--primary); background: #dce8d8; font-size: .55rem; font-style: normal; text-transform: uppercase; white-space: nowrap; }
-.comparisonRow.isCurrent { box-shadow: inset 3px 0 var(--accent); background: #eaf0e5; }
-.mobileLabel { display: none; }
+.comparisonDetails {
+  position: relative;
+  z-index: 2;
+  margin-top: 14px;
+  padding: 8px 14px;
+  border: 1px solid #d3d9d2;
+  border-radius: 12px;
+  color: var(--ink);
+  background: #dddedc;
+}
+.comparisonContent {
+  padding-top: 4px;
+}
+.comparisonHeading {
+  margin-top: 0;
+  padding: 0 12px 9px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+  color: #66869f;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+.comparisonHeading > span {
+  text-align: right;
+}
+.comparisonTable {
+  display: grid;
+  gap: 6px;
+}
+.comparisonRow {
+  min-height: 45px;
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  border-radius: 10px;
+  background: #edf5fc;
+  font-size: 0.72rem;
+}
+.comparisonRow > span {
+  color: #456780;
+  font-weight: 700;
+}
+.comparisonRow strong {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.comparisonRow em {
+  margin-left: 7px;
+  padding: 3px 6px;
+  border-radius: 10px;
+  color: var(--primary);
+  background: #dce8d8;
+  font-size: 0.55rem;
+  font-style: normal;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.comparisonRow.isCurrent {
+  box-shadow: inset 3px 0 var(--accent);
+  background: #eaf0e5;
+}
+.mobileLabel {
+  display: none;
+}
 
 @container results (max-width: 540px) {
-  .comparisonHeading { grid-template-columns: 1fr 1fr; }
-  .comparisonHeading > span:first-child { display: none; }
-  .comparisonTable { margin-top: 0; }
-  .comparisonRow { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .comparisonRow > span { position: relative; grid-column: 1 / -1; padding-bottom: 5px; border-bottom: 1px solid rgba(0,0,0,.06); }
-  .comparisonRow .mobileLabel { display: block; margin-bottom: 4px; color: #82908a; font-size: .55rem; font-weight: 700; text-transform: uppercase; }
+  .comparisonHeading {
+    grid-template-columns: 1fr 1fr;
+  }
+  .comparisonHeading > span:first-child {
+    display: none;
+  }
+  .comparisonTable {
+    margin-top: 0;
+  }
+  .comparisonRow {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .comparisonRow > span {
+    position: relative;
+    grid-column: 1 / -1;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  .comparisonRow .mobileLabel {
+    display: block;
+    margin-bottom: 4px;
+    color: #82908a;
+    font-size: 0.55rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
 }

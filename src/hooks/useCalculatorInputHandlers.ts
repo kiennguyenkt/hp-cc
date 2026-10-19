@@ -9,14 +9,16 @@ export function useCalculatorInputHandlers(
 ) {
   const [showBackupNotice, setShowBackupNotice] = useState(false);
 
-  const handleNumericChange = (field: NumericField, value: string) => updateConfig({ [field]: value });
+  const handleNumericChange = (field: NumericField, value: string) =>
+    updateConfig({ [field]: value });
 
   const normalizeField = (field: NumericField) => {
     const normalized = normalizeNumericInput(config[field]);
     const next = { ...config, [field]: normalized };
     if (field === 'guildLevel') {
       const level = parseNumericDraft(normalized);
-      if (level !== null) next.guildLevel = String(Math.min(level, next.maxGuildLevel));
+      if (level !== null)
+        next.guildLevel = String(Math.min(level, next.maxGuildLevel));
     }
     if (field === 'hpBackup' || field === 'recoveryLimit') {
       const backup = parseNumericDraft(next.hpBackup);
@@ -33,13 +35,17 @@ export function useCalculatorInputHandlers(
     const next = { ...patch };
     if (next.maxGuildLevel !== undefined) {
       const currentLevel = parseNumericDraft(config.guildLevel);
-      if (currentLevel !== null && currentLevel > next.maxGuildLevel) next.guildLevel = String(next.maxGuildLevel);
+      if (currentLevel !== null && currentLevel > next.maxGuildLevel)
+        next.guildLevel = String(next.maxGuildLevel);
     }
     updateConfig(next);
   };
 
   return {
-    handleNumericChange, handleParameterChange, normalizeField,
-    showBackupNotice, dismissBackupNotice: () => setShowBackupNotice(false),
+    handleNumericChange,
+    handleParameterChange,
+    normalizeField,
+    showBackupNotice,
+    dismissBackupNotice: () => setShowBackupNotice(false),
   };
 }

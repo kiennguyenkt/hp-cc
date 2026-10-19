@@ -11,7 +11,7 @@ interface StoredState {
   activeId: string;
 }
 
-export function loadConfigs(): {
+export function loadProfiles(): {
   configs: CalculatorConfig[];
   activeId: string;
 } {
@@ -39,7 +39,7 @@ export function loadConfigs(): {
   }
 }
 
-export function saveConfigs(
+export function saveProfiles(
   configs: CalculatorConfig[],
   activeId: string,
 ): void {

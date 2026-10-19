@@ -1,77 +1,77 @@
 import { useCallback, useState } from 'react';
 import type { CalculatorConfig } from '../domain/types';
-import { loadConfigs, saveConfigs } from '../storage';
+import { loadProfiles, saveProfiles } from '../storage';
 
-/** Owns config drafts, selection, and explicit persistence. */
+/** Owns profile drafts, selection, and explicit persistence. */
 export function useCalculatorProfiles() {
-  const [initial] = useState(loadConfigs);
-  const [configs, setConfigs] = useState(initial.configs);
+  const [initial] = useState(loadProfiles);
+  const [profiles, setProfiles] = useState(initial.configs);
   const [activeId, setActiveId] = useState(initial.activeId);
-  const [savedConfigs, setSavedConfigs] = useState(initial.configs);
+  const [savedProfiles, setSavedProfiles] = useState(initial.configs);
   const [failedConfig, setFailedConfig] = useState<CalculatorConfig | null>(
     null,
   );
   const activeConfig =
-    configs.find((config) => config.id === activeId) ?? configs[0];
-  const savedConfig = savedConfigs.find((config) => config.id === activeId);
+    profiles.find((profile) => profile.id === activeId) ?? profiles[0];
+  const savedProfile = savedProfiles.find((profile) => profile.id === activeId);
   const saveStatus: 'error' | 'saved' | 'unsaved' =
     failedConfig === activeConfig
       ? 'error'
-      : JSON.stringify(activeConfig) === JSON.stringify(savedConfig)
+      : JSON.stringify(activeConfig) === JSON.stringify(savedProfile)
         ? 'saved'
         : 'unsaved';
 
   const updateActive = useCallback(
     (patch: Partial<CalculatorConfig>) => {
-      setConfigs((current) =>
-        current.map((config) =>
-          config.id === activeId ? { ...config, ...patch } : config,
+      setProfiles((current) =>
+        current.map((profile) =>
+          profile.id === activeId ? { ...profile, ...patch } : profile,
         ),
       );
     },
     [activeId],
   );
 
-  const saveCurrentConfig = () => {
-    const nextSavedConfigs = savedConfig
-      ? savedConfigs.map((config) =>
-          config.id === activeId ? activeConfig : config,
+  const saveCurrentProfile = () => {
+    const nextSavedProfiles = savedProfile
+      ? savedProfiles.map((profile) =>
+          profile.id === activeId ? activeConfig : profile,
         )
-      : [...savedConfigs, activeConfig];
+      : [...savedProfiles, activeConfig];
     try {
-      saveConfigs(nextSavedConfigs, activeId);
-      setSavedConfigs(nextSavedConfigs);
+      saveProfiles(nextSavedProfiles, activeId);
+      setSavedProfiles(nextSavedProfiles);
       setFailedConfig(null);
     } catch {
       setFailedConfig(activeConfig);
     }
   };
 
-  const addConfig = () => {
+  const addProfile = () => {
     const clone = { ...activeConfig, id: crypto.randomUUID() };
-    setConfigs((current) => [...current, clone]);
+    setProfiles((current) => [...current, clone]);
     setActiveId(clone.id);
   };
 
-  const renameConfig = (id: string, name: string) => {
+  const renameProfile = (id: string, name: string) => {
     const trimmedName = name.trim();
     if (!trimmedName) return;
-    setConfigs((current) =>
-      current.map((config) =>
-        config.id === id ? { ...config, name: trimmedName } : config,
+    setProfiles((current) =>
+      current.map((profile) =>
+        profile.id === id ? { ...profile, name: trimmedName } : profile,
       ),
     );
   };
 
   return {
-    configs,
+    profiles,
     activeId,
     activeConfig,
     saveStatus,
     updateActive,
-    saveCurrentConfig,
-    addConfig,
-    renameConfig,
-    selectConfig: setActiveId,
+    saveCurrentProfile,
+    addProfile,
+    renameProfile,
+    selectProfile: setActiveId,
   };
 }

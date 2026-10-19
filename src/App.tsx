@@ -21,15 +21,15 @@ export default function App() {
   } | null>(null);
 
   const {
-    configs,
+    profiles,
     activeId,
     activeConfig,
     saveStatus,
     updateActive,
-    saveCurrentConfig,
-    selectConfig,
-    addConfig,
-    renameConfig,
+    saveCurrentProfile,
+    selectProfile,
+    addProfile,
+    renameProfile,
   } = useCalculatorProfiles();
   const {
     handleNumericChange,
@@ -50,15 +50,15 @@ export default function App() {
     <CalculatorProvider config={activeConfig} result={result}>
       <div className={styles.appShell}>
         <Header
-          configs={configs}
+          profiles={profiles}
           activeId={activeId}
           saveStatus={saveStatus}
           onRename={() =>
             setRenameDraft({ id: activeId, name: activeConfig.name })
           }
-          onSave={saveCurrentConfig}
-          onSelect={selectConfig}
-          onAdd={addConfig}
+          onSave={saveCurrentProfile}
+          onSelect={selectProfile}
+          onAdd={addProfile}
         />
         <main className={cx(styles.workspace, collapsed && styles.isCollapsed)}>
           <ParameterPanel
@@ -94,13 +94,13 @@ export default function App() {
                 event.preventDefault();
                 const name = renameDraft.name.trim();
                 if (!name) return;
-                renameConfig(renameDraft.id, name);
+                renameProfile(renameDraft.id, name);
                 setRenameDraft(null);
               }}
             >
-              <h2 id="rename-title">{t('renameConfig')}</h2>
+              <h2 id="rename-title">{t('renameProfile')}</h2>
               <label className={cx(shared.field, styles.renameField)}>
-                <span>{t('configName')}</span>
+                <span>{t('profileName')}</span>
                 <input
                   autoFocus
                   required

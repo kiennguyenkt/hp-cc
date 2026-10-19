@@ -10,18 +10,18 @@ export const messages = {
     id: 'Kalkulator HP Event Doomday',
     zh: 'Doomday 活动 HP 计算器',
   },
-  config: {
-    vi: 'Cấu hình',
-    en: 'Config',
-    th: 'ชุดตั้งค่า',
-    id: 'Konfigurasi',
+  profile: {
+    vi: 'Profile',
+    en: 'Profile',
+    th: 'โปรไฟล์',
+    id: 'Profil',
     zh: '配置',
   },
-  addConfig: {
-    vi: 'Nhân bản cấu hình',
-    en: 'Duplicate config',
-    th: 'ทำสำเนาชุดตั้งค่า',
-    id: 'Duplikat konfigurasi',
+  addProfile: {
+    vi: 'Nhân bản profile',
+    en: 'Duplicate profile',
+    th: 'ทำสำเนาโปรไฟล์',
+    id: 'Duplikat profil',
     zh: '复制配置',
   },
   rename: {
@@ -31,18 +31,18 @@ export const messages = {
     id: 'Ubah nama',
     zh: '重命名',
   },
-  renameConfig: {
-    vi: 'Đổi tên cấu hình hiện tại',
-    en: 'Rename current config',
-    th: 'เปลี่ยนชื่อชุดตั้งค่าปัจจุบัน',
-    id: 'Ubah nama konfigurasi saat ini',
+  renameProfile: {
+    vi: 'Đổi tên profile hiện tại',
+    en: 'Rename current profile',
+    th: 'เปลี่ยนชื่อโปรไฟล์ปัจจุบัน',
+    id: 'Ubah nama profil saat ini',
     zh: '重命名当前配置',
   },
-  configName: {
-    vi: 'Tên cấu hình',
-    en: 'Config name',
-    th: 'ชื่อชุดตั้งค่า',
-    id: 'Nama konfigurasi',
+  profileName: {
+    vi: 'Tên profile',
+    en: 'Profile name',
+    th: 'ชื่อโปรไฟล์',
+    id: 'Nama profil',
     zh: '配置名称',
   },
   cancel: {
@@ -66,11 +66,11 @@ export const messages = {
     id: 'Simpan',
     zh: '保存',
   },
-  saveConfig: {
-    vi: 'Lưu cấu hình hiện tại',
-    en: 'Save current config',
-    th: 'บันทึกชุดตั้งค่าปัจจุบัน',
-    id: 'Simpan konfigurasi saat ini',
+  saveProfile: {
+    vi: 'Lưu profile hiện tại',
+    en: 'Save current profile',
+    th: 'บันทึกโปรไฟล์ปัจจุบัน',
+    id: 'Simpan profil saat ini',
     zh: '保存当前配置',
   },
   unsaved: {

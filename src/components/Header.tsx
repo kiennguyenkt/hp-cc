@@ -13,7 +13,7 @@ const localeLabels: Record<Locale, string> = {
 const locales = Object.keys(localeLabels) as Locale[];
 
 interface HeaderProps {
-  configs: Pick<CalculatorConfig, 'id' | 'name'>[];
+  profiles: Pick<CalculatorConfig, 'id' | 'name'>[];
   activeId: string;
   saveStatus: 'saved' | 'unsaved' | 'error';
   onSave: () => void;
@@ -23,7 +23,7 @@ interface HeaderProps {
 }
 
 export function Header({
-  configs,
+  profiles,
   activeId,
   saveStatus,
   onSave,
@@ -50,13 +50,13 @@ export function Header({
 
       <div className={styles.topbarControls}>
         <div className={styles.configArea}>
-          <span className={styles.controlLabel}>{t('config')}</span>
+          <span className={styles.controlLabel}>{t('profile')}</span>
           <div className={styles.configActions}>
             <button
               type="button"
               className={styles.configSave}
               onClick={onRename}
-              title={t('renameConfig')}
+              title={t('renameProfile')}
             >
               {t('rename')}
             </button>
@@ -64,8 +64,8 @@ export function Header({
               type="button"
               className={styles.configSave}
               onClick={onSave}
-              title={t('saveConfig')}
-              aria-label={t('saveConfig')}
+              title={t('saveProfile')}
+              aria-label={t('saveProfile')}
             >
               {t('save')}
             </button>
@@ -73,9 +73,9 @@ export function Header({
             <div
               className={styles.configTabs}
               role="tablist"
-              aria-label={t('config')}
+              aria-label={t('profile')}
             >
-              {configs.map(({ id, name }, index) => (
+              {profiles.map(({ id, name }, index) => (
                 <button
                   key={id}
                   type="button"
@@ -95,8 +95,8 @@ export function Header({
                 type="button"
                 className={cx(styles.configTab, styles.configTabAdd)}
                 onClick={onAdd}
-                aria-label={t('addConfig')}
-                title={t('addConfig')}
+                aria-label={t('addProfile')}
+                title={t('addProfile')}
               >
                 +
               </button>

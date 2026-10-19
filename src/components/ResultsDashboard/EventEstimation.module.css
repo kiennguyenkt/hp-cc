@@ -6,6 +6,7 @@
   overflow: hidden;
   position: relative;
 }
+
 .summaryCard::after {
   content: '';
   position: absolute;
@@ -28,19 +29,24 @@
   color: var(--ink);
   background: var(--paper);
 }
+
 .calculationDetails .detailList {
   padding-bottom: 4px;
 }
+
 .calculationDetails .detailList > div {
   position: relative;
 }
+
 .calculationDetails .detailList > div:last-child {
   border-bottom: 0;
 }
+
 .detailList {
   display: grid;
   grid-template-columns: 1fr;
 }
+
 .detailList > div {
   padding: 12px 0;
   display: flex;
@@ -49,9 +55,11 @@
   border-bottom: 1px solid var(--line);
   font-size: 0.73rem;
 }
+
 .detailList span {
   color: #64706a;
 }
+
 .detailList strong {
   font-variant-numeric: tabular-nums;
 }
@@ -63,6 +71,7 @@
   position: relative;
   z-index: 1;
 }
+
 .projection {
   min-height: 132px;
   padding: 20px;
@@ -74,6 +83,7 @@
   color: var(--primary-dark);
   background: var(--accent);
 }
+
 .projection > span {
   margin-bottom: 8px;
   color: #476654;
@@ -82,12 +92,14 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
+
 .projection strong {
   font-size: clamp(1.7rem, 4vw, 2.8rem);
   line-height: 1;
   letter-spacing: -0.055em;
   font-variant-numeric: tabular-nums;
 }
+
 .projection small {
   margin-top: 8px;
   opacity: 0.55;
@@ -100,6 +112,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
+
 .timingGrid > div {
   position: relative;
   padding: 14px 15px;
@@ -108,28 +121,33 @@
   align-items: center;
   gap: 12px;
   border-radius: 11px;
-  background: rgba(255, 255, 255, 0.055);
+  color: var(--ink);
+  background: #cfe7fd;
 }
+
 .timingGrid span {
-  color: #a8b8b1;
+  color: #52708c;
   font-size: 0.68rem;
 }
+
 .timingGrid strong {
   white-space: nowrap;
   font-size: 0.9rem;
   font-variant-numeric: tabular-nums;
 }
+
 .timingGrid strong em {
   font-size: 0.8rem;
   font-weight: 400;
 }
+
 .timingGrid small {
-  color: #a8b8b1;
+  color: #52708c;
   font-size: 0.65rem;
 }
+
 .timingGrid .timingAccent {
-  border: 1px solid rgba(237, 120, 75, 0.38);
-  background: rgba(237, 120, 75, 0.1);
+  border: 4px solid rgba(240, 80, 75, 0.6);
 }
 
 @container results (max-width: 540px) {
@@ -148,12 +166,15 @@
   .summaryCard {
     padding: 19px 16px;
   }
+
   .projectionGrid {
     grid-template-columns: 1fr;
   }
+
   .projection {
     min-height: 118px;
   }
+
   .projection strong {
     font-size: 2rem;
   }

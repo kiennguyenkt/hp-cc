@@ -75,7 +75,7 @@ export default function App() {
             onChange={handleNumericChange}
             onBlur={normalizeField}
           />
-          <ResultsDashboard result={result} />
+          <ResultsDashboard config={activeConfig} result={result} />
         </div>
       </main>
 

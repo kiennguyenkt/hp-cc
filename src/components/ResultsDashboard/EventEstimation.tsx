@@ -102,7 +102,7 @@ export function EventEstimation({ result }: EventEstimationProps) {
             {format(result.hoursToFill.value)} <small>{t('hours')}</small>
           </strong>
         </div>
-        <div className={styles.timingAccent}>
+        <div>
           <span>
             {t('dischargeTime')}{' '}
             <InfoTip
@@ -113,7 +113,7 @@ export function EventEstimation({ result }: EventEstimationProps) {
             {formatDischarge(result.dischargeHours.value, t('hours'))}
           </strong>
         </div>
-        <div>
+        <div className={styles.timingAccent}>
           <span>
             {t('dischargeHp')}{' '}
             <InfoTip label={result.dischargeHp.formatFormula(formulaFormat)} />

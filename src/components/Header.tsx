@@ -41,8 +41,9 @@ export function Header({
         </span>
         <div>
           <h1>{t('appTitle')}</h1>
-          <p id="51921435" className={styles.devIngameId}>
-            {t('developerCredit')} <strong>Hunter[517]</strong>
+          {/* Easter egg: Dev's in-game ID */}
+          <p id="51921435" className={styles.devSignature}>
+            From <strong>Hunter [S517]</strong> with ❤️
           </p>
         </div>
       </div>

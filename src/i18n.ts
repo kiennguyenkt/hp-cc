@@ -10,13 +10,6 @@ export const messages = {
     id: 'Kalkulator HP Event Doomday',
     zh: 'Doomday 活动 HP 计算器',
   },
-  developerCredit: {
-    vi: 'Phát triển bởi bang',
-    en: 'Developed by guild',
-    th: 'พัฒนาโดยกิลด์',
-    id: 'Dikembangkan oleh guild',
-    zh: '开发公会：',
-  },
   config: {
     vi: 'Cấu hình',
     en: 'Config',
@@ -273,11 +266,11 @@ export const messages = {
     zh: '活动结束时预测',
   },
   currentLevel: {
-    vi: 'Level hiện tại',
-    en: 'Current level',
-    th: 'เลเวลปัจจุบัน',
-    id: 'Level saat ini',
-    zh: '当前等级',
+    vi: 'Level bang hiện tại',
+    en: 'Current guild level',
+    th: 'เลเวลกิลด์ปัจจุบัน',
+    id: 'Level guild saat ini',
+    zh: '当前公会等级',
   },
   guildMax: {
     vi: 'Bang max level',

@@ -1,14 +1,15 @@
-import type { CalculatorResult } from '../../domain/types';
+import type { CalculatorConfig, CalculatorResult } from '../../domain/types';
 import { useFormat, useTranslation } from '../../hooks/LocaleContext';
 import { cx } from '../../shared/cx';
 import shared from '../shared.module.css';
 import styles from './TargetProgress.module.css';
 
 interface TargetProgressProps {
+  config: CalculatorConfig;
   result: CalculatorResult;
 }
 
-export function TargetProgress({ result }: TargetProgressProps) {
+export function TargetProgress({ config, result }: TargetProgressProps) {
   const t = useTranslation();
   const format = useFormat();
   return (
@@ -28,7 +29,9 @@ export function TargetProgress({ result }: TargetProgressProps) {
               {(['current', 'max'] as const).map((level) => (
                 <div key={level}>
                   <h3>
-                    {level === 'current' ? t('currentLevel') : t('guildMax')}
+                    {level === 'current'
+                      ? `${t('currentLevel')} (${config.guildLevel})`
+                      : `${t('guildMax')} (${config.maxGuildLevel})`}
                   </h3>
                   <p>
                     <span>{t('missingHp')}</span>

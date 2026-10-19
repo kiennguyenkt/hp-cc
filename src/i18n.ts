@@ -4,18 +4,18 @@ type LocalizedText = Record<Locale, string>;
 
 export const messages = {
   appTitle: {
-    vi: "Tính HP sự kiện",
-    en: "Event HP Calculator",
-    th: "เครื่องคำนวณ HP อีเวนต์",
-    id: "Kalkulator HP Event",
-    zh: "活动 HP 计算器",
+    vi: "Tính HP sự kiện chung cuộc",
+    en: "Doomday Event HP Calculator",
+    th: "เครื่องคำนวณ HP อีเวนต์ Doomday",
+    id: "Kalkulator HP Event Doomday",
+    zh: "Doomday 活动 HP 计算器",
   },
-  eyebrow: {
-    vi: "Bộ dự báo tài nguyên",
-    en: "Resource projection",
-    th: "การคาดการณ์ทรัพยากร",
-    id: "Proyeksi sumber daya",
-    zh: "资源预测",
+  developerCredit: {
+    vi: "Phát triển bởi bang",
+    en: "Developed by guild",
+    th: "พัฒนาโดยกิลด์",
+    id: "Dikembangkan oleh guild",
+    zh: "开发公会：",
   },
   config: {
     vi: "Cấu hình",

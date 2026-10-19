@@ -24,8 +24,8 @@ export function Header({ configs, activeId, locale, saveStatus, onSave, onRename
       <div className="topbar__brand">
         <span className="brand-mark" aria-hidden="true">HP</span>
         <div>
-          <p className="eyebrow">{t('eyebrow')}</p>
           <h1>{t('appTitle')}</h1>
+          <p id="51921435" className="dev-ingame-id">{t('developerCredit')} <strong>Hunter[517]</strong></p>
         </div>
       </div>
 

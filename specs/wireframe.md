@@ -14,7 +14,8 @@ Mô tả bố cục và tương tác của giao diện hiện tại. Yêu cầu 
 Thanh đầu trang nằm trên cả hai cột. Cột trái chứa tham số, mặc định mở và có thể thu gọn. Cột phải chứa dữ liệu account và các vùng kết quả xếp dọc.
 
 ```text
-TÍNH HP SỰ KIỆN · Bộ dự báo tài nguyên
+TÍNH HP SỰ KIỆN CHUNG CUỘC
+Phát triển bởi bang Hunter[517]
 Cấu hình: [Đổi tên] [Lưu] | [1 •] [2] [+]    [VN] [EN] [TH] [ID] [中文]
 Trạng thái lưu: Đã lưu trên trình duyệt / Chưa lưu thay đổi / Không thể lưu
 
@@ -47,7 +48,8 @@ Sáu ô account xếp ba cột trên màn hình rộng, hai cột ở kích thư
 Bố cục một cột: thanh đầu trang → tham số → dữ liệu account → dự kiến (chứa chi tiết) → so sánh → các mốc mục tiêu.
 
 ```text
-TÍNH HP SỰ KIỆN
+TÍNH HP SỰ KIỆN CHUNG CUỘC
+Phát triển bởi bang Hunter[517]
 [Đổi tên] [Lưu] | [1 •] [2] [+]
 [VN] [EN] [TH] [ID] [中文]
 Trạng thái lưu

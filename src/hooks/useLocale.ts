@@ -11,7 +11,10 @@ export function useLocale() {
   const numberFormat = useMemo(() => new Intl.NumberFormat(numberLocales[locale], { maximumFractionDigits: 0 }), [locale]);
   const format = useCallback((value: number | null) => value === null || !Number.isFinite(value) ? t('invalid') : numberFormat.format(value), [numberFormat, t]);
 
-  useEffect(() => { document.documentElement.lang = locale; }, [locale]);
+  useEffect(() => {
+    document.documentElement.lang = locale;
+    document.title = t('appTitle');
+  }, [locale, t]);
 
   const changeLocale = (nextLocale: Locale) => {
     setLocale(nextLocale);

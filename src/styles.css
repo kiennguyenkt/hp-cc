@@ -33,7 +33,9 @@ button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-v
 .topbar__brand, .topbar__controls, .header-meta, .config-area { display: flex; align-items: center; }
 .topbar__brand { gap: 13px; min-width: 240px; }
 .brand-mark { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid rgba(255,255,255,.25); border-radius: 15px; color: var(--primary-dark); background: var(--accent); font-weight: 900; letter-spacing: -.05em; }
-.eyebrow { margin: 0 0 3px; color: #a9bbb4; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .16em; }
+.dev-ingame-id { width: fit-content; margin: 8px 0 0; padding: 5px 9px; border: 1px solid rgba(185,220,104,.3); border-radius: 8px; color: #dfe8e4; background: rgba(185,220,104,.09); font-size: .8125rem; line-height: 1.5; }
+.dev-ingame-id strong { color: var(--accent); font-weight: 750; white-space: nowrap; }
+.brand-mark { flex-shrink: 0; }
 h1 { margin: 0; font-size: clamp(1.1rem, 2vw, 1.45rem); line-height: 1.1; letter-spacing: -.025em; }
 .topbar__controls { flex: 1; justify-content: space-between; gap: 25px; min-width: 0; }
 .config-area { gap: 12px; min-width: 0; }

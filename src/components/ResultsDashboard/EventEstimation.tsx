@@ -1,17 +1,14 @@
 import type { ReactNode } from 'react';
-import type { CalculatorResult } from '../../domain/types';
-import { useFormat, useTranslation } from '../../hooks/LocaleContext';
+import { useCalculator } from '../../context/CalculatorContext';
+import { useFormat, useTranslation } from '../../context/LocaleContext';
 import { InfoTip } from '../InfoTip';
 import { ScenarioComparison } from './ScenarioComparison';
 import { cx } from '../../shared/cx';
 import shared from '../shared.module.css';
 import styles from './EventEstimation.module.css';
 
-interface EventEstimationProps {
-  result: CalculatorResult;
-}
-
-export function EventEstimation({ result }: EventEstimationProps) {
+export function EventEstimation() {
+  const { result } = useCalculator();
   const t = useTranslation();
   const format = useFormat();
   const formulaFormat = { formatNumber: format, label: t };
@@ -91,7 +88,7 @@ export function EventEstimation({ result }: EventEstimationProps) {
           <small>HP</small>
         </div>
       </div>
-      <ScenarioComparison result={result} />
+      <ScenarioComparison />
       <div className={styles.timingGrid}>
         <div>
           <span>

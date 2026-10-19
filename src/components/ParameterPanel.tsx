@@ -1,32 +1,25 @@
 import { RECOVERY_RATE_OPTIONS } from '../domain/defaultFormValue';
 import type { CalculatorConfig } from '../domain/types';
-import { useFormat, useTranslation } from '../hooks/LocaleContext';
+import { useCalculator } from '../context/CalculatorContext';
+import { useFormat, useTranslation } from '../context/LocaleContext';
 import { cx } from '../shared/cx';
 import shared from './shared.module.css';
 import styles from './ParameterPanel.module.css';
 
 interface ParameterPanelProps {
-  config: CalculatorConfig;
   collapsed: boolean;
-  daysRemaining: number | null;
-  hoursRemaining: number | null;
-  extraBottles: number | null;
   onToggle: () => void;
   onChange: (patch: Partial<CalculatorConfig>) => void;
   onGuildBlur: () => void;
 }
 
-export function ParameterPanel(props: ParameterPanelProps) {
-  const {
-    config,
-    collapsed,
-    daysRemaining,
-    hoursRemaining,
-    extraBottles,
-    onToggle,
-    onChange,
-    onGuildBlur,
-  } = props;
+export function ParameterPanel({
+  collapsed,
+  onToggle,
+  onChange,
+  onGuildBlur,
+}: ParameterPanelProps) {
+  const { config, result } = useCalculator();
   const t = useTranslation();
   const format = useFormat();
   if (collapsed) {
@@ -60,9 +53,9 @@ export function ParameterPanel(props: ParameterPanelProps) {
         <div className={styles.timePanel}>
           <span>{t('timeLeft')}</span>
           <strong>
-            {format(hoursRemaining)} <small>{t('hours')}</small>{' '}
+            {format(result.hoursRemaining)} <small>{t('hours')}</small>{' '}
             <small>
-              ({format(daysRemaining)} {t('days')})
+              ({format(result.daysRemaining)} {t('days')})
             </small>
           </strong>
         </div>
@@ -110,7 +103,7 @@ export function ParameterPanel(props: ParameterPanelProps) {
 
       <div className={styles.statRow}>
         <span>{t('extraBottlesAtMax')}</span>
-        <strong>{format(extraBottles)}</strong>
+        <strong>{format(result.extraMaxBottles)}</strong>
       </div>
 
       <div className={styles.ruleBlock}>

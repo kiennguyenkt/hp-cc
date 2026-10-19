@@ -1,5 +1,5 @@
 import type { CalculatorConfig, Locale } from '../domain/types';
-import { useI18n } from '../hooks/LocaleContext';
+import { useI18n } from '../context/LocaleContext';
 import { cx } from '../shared/cx';
 import styles from './Header.module.css';
 

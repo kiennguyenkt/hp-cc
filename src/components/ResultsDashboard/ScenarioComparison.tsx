@@ -1,17 +1,14 @@
-import type { CalculatorResult } from '../../domain/types';
-import { useFormat, useTranslation } from '../../hooks/LocaleContext';
+import { useCalculator } from '../../context/CalculatorContext';
+import { useFormat, useTranslation } from '../../context/LocaleContext';
 import { InfoTip } from '../InfoTip';
 import { cx } from '../../shared/cx';
 import shared from '../shared.module.css';
 import styles from './ScenarioComparison.module.css';
 
-interface ScenarioComparisonProps {
-  result: CalculatorResult;
-}
-
 const scenarioKeys = ['both', 'noPackage', 'noDaily', 'neither'] as const;
 
-export function ScenarioComparison({ result }: ScenarioComparisonProps) {
+export function ScenarioComparison() {
+  const { result } = useCalculator();
   const t = useTranslation();
   const format = useFormat();
   const formulaFormat = { formatNumber: format, label: t };

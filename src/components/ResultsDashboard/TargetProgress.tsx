@@ -1,15 +1,11 @@
-import type { CalculatorConfig, CalculatorResult } from '../../domain/types';
-import { useFormat, useTranslation } from '../../hooks/LocaleContext';
+import { useCalculator } from '../../context/CalculatorContext';
+import { useFormat, useTranslation } from '../../context/LocaleContext';
 import { cx } from '../../shared/cx';
 import shared from '../shared.module.css';
 import styles from './TargetProgress.module.css';
 
-interface TargetProgressProps {
-  config: CalculatorConfig;
-  result: CalculatorResult;
-}
-
-export function TargetProgress({ config, result }: TargetProgressProps) {
+export function TargetProgress() {
+  const { config, result } = useCalculator();
   const t = useTranslation();
   const format = useFormat();
   return (

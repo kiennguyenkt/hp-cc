@@ -1,5 +1,5 @@
 import { createContext, useContext, type ReactNode } from 'react';
-import { useLocale } from './useLocale';
+import { useLocale } from '../hooks/useLocale';
 
 type LocaleContextValue = ReturnType<typeof useLocale>;
 

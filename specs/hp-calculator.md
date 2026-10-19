@@ -158,9 +158,10 @@ UI cần có icon thông tin/popover cạnh `Số bình hiện tại`, `Tổng b
 
 - `HP từ bình = số bình × 500`.
 - `Thời điểm kết thúc = 20:00 của ngày kết thúc sự kiện` theo múi giờ cục bộ của thiết bị/trình duyệt.
-- `Số ngày còn lại = MAX(0, ngày kết thúc − ngày hôm nay)`, tương đương công thức Excel `=MAX(0, H4 - TODAY())`. `Ngày hôm nay` và ngày kết thúc đều được hiểu theo múi giờ cục bộ của thiết bị/trình duyệt. Đây là chênh lệch ngày lịch, không suy ra từ số giờ còn lại; mỗi ngày còn lại vẫn cộng trọn Daily, HP reset và gói 249, còn ngày kết thúc không cộng thêm các nguồn theo ngày này.
-- `Số phút còn lại = MAX(0, ROUNDDOWN((thời điểm kết thúc − thời điểm hiện tại) quy đổi sang phút, 0))`.
-- `Số giờ còn lại = MAX(0, ROUND((thời điểm kết thúc − thời điểm hiện tại) × 24, 0))`, tương đương công thức Excel `=MAX(0, ROUND((H4 + TIME(20, 0, 0) - NOW()) * 24, 0))` với `H4` là ngày kết thúc.
+- `Thời điểm bắt đầu tính = 00:00 của (ngày kết thúc − 2 ngày)` theo múi giờ cục bộ. Event chạy trong cửa sổ cố định `3 ngày` gồm hai ngày trước ngày kết thúc và ngày kết thúc — ví dụ chọn ngày kết thúc `30` thì cửa sổ là các ngày `28–30`; cửa sổ này trùng với thời lượng cố định `3 ngày` của nhóm gói 249. Mọi thời gian trước thời điểm bắt đầu tính không được cộng vào kết quả.
+- `Số ngày còn lại = MIN(3, MAX(0, ngày kết thúc − ngày hôm nay))`, tương đương công thức Excel `=MIN(3, MAX(0, H4 - TODAY()))`. `Ngày hôm nay` và ngày kết thúc đều được hiểu theo múi giờ cục bộ của thiết bị/trình duyệt. Đây là chênh lệch ngày lịch, không suy ra từ số giờ còn lại; mỗi ngày còn lại vẫn cộng trọn Daily, HP reset và gói 249, còn ngày kết thúc không cộng thêm các nguồn theo ngày này. Khi event chưa bắt đầu (trước thời điểm bắt đầu tính), số ngày còn lại luôn bằng `3`.
+- `Số phút còn lại = MAX(0, ROUNDDOWN((thời điểm kết thúc − MAX(thời điểm hiện tại, thời điểm bắt đầu tính)) quy đổi sang phút, 0))`. Khi event chưa bắt đầu, số phút còn lại luôn bằng `4080` (tức `68` giờ).
+- `Số giờ còn lại = MAX(0, ROUND((thời điểm kết thúc − MAX(thời điểm hiện tại, thời điểm bắt đầu tính)) × 24, 0))`, tương đương công thức Excel `=MAX(0, ROUND((H4 + TIME(20, 0, 0) - MAX(NOW(), H4 - 2)) * 24, 0))` với `H4` là ngày kết thúc.
 - `HP hồi đến ngày kết thúc = số giờ còn lại × 60 × mức hồi HP mỗi phút`. Số giờ dùng trong công thức là số giờ nguyên đang hiển thị trên giao diện. HP hồi không bị khống chế bởi giới hạn dự trữ.
 - `HP reset = số ngày còn lại × Max HP reset / day`.
 - `Số bình Daily / ngày = 60 + (mua bình bằng kim cương ? 90 × 5 : 0)`.

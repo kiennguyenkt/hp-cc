@@ -36,4 +36,21 @@ describe('event time', () => {
       hoursRemaining: 0,
     });
   });
+
+  it('caps remaining time at the fixed 3-day window when the end date lies further ahead', () => {
+    // End on the 30th → window runs from the 28th 00:00; on the 26th the full window remains.
+    expect(calculateEventTimeRemaining('2026-10-30', new Date(2026, 9, 26, 9))).toEqual({
+      daysRemaining: 3,
+      minutesRemaining: 68 * 60,
+      hoursRemaining: 68,
+    });
+  });
+
+  it('counts the real clock again from the first event day onward', () => {
+    expect(calculateEventTimeRemaining('2026-10-30', new Date(2026, 9, 28, 12))).toEqual({
+      daysRemaining: 2,
+      minutesRemaining: 56 * 60,
+      hoursRemaining: 56,
+    });
+  });
 });

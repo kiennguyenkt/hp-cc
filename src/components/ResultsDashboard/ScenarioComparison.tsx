@@ -15,9 +15,9 @@ export function ScenarioComparison({ result, format, t }: ScenarioComparisonProp
   const selectedScenario = result.selectedScenario;
 
   return (
-    <details className="card comparison-card result-accordion">
-      <summary className="accordion-heading section-heading">
-        <h2>{t('comparisons')}</h2><span className="section-index">03</span>
+    <details className="comparison-details result-accordion">
+      <summary className="accordion-heading">
+        <h3>{t('comparisons')}</h3>
       </summary>
       <div className="comparison-content">
         <div className="comparison-heading"><span aria-hidden="true" /><span>{t('currentLevel')}</span><span>{t('guildMax')} <InfoTip label={result.extraMaxHp.formatFormula(formulaFormat)} /></span></div>

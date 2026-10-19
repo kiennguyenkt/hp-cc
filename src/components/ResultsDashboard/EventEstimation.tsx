@@ -1,6 +1,8 @@
+import type { ReactNode } from 'react';
 import type { CalculatorResult } from '../../domain/types';
 import type { TranslationKey } from '../../i18n';
 import { InfoTip } from '../InfoTip';
+import { ScenarioComparison } from './ScenarioComparison';
 
 interface EventEstimationProps {
   result: CalculatorResult;
@@ -10,6 +12,11 @@ interface EventEstimationProps {
 
 export function EventEstimation({ result, format, t }: EventEstimationProps) {
   const formulaFormat = { formatNumber: format, label: t };
+  // Âm nghĩa là không cần xả nữa — hiển thị 0, đơn vị với giá trị âm (in nghiêng, bỏ đậm) xếp hết vào ngoặc.
+  const formatDischarge = (value: number | null, unit: string): ReactNode =>
+    value !== null && value < 0
+      ? <>{format(0)} <em>({format(value)} {unit})</em></>
+      : <>{format(value)} <small>{unit}</small></>;
 
   return (
     <section className="summary-card card">
@@ -31,10 +38,11 @@ export function EventEstimation({ result, format, t }: EventEstimationProps) {
           <span>{t('guildMax')} <InfoTip label={t('maxTip')} /></span><strong>{format(result.projectedMax.value)}</strong><small>HP</small>
         </div>
       </div>
+      <ScenarioComparison result={result} format={format} t={t} />
       <div className="timing-grid">
         <div><span>{t('fillTime')} <InfoTip label={result.hoursToFill.formatFormula(formulaFormat)} /></span><strong>{format(result.hoursToFill.value)} <small>{t('hours')}</small></strong></div>
-        <div className="timing-accent"><span>{t('dischargeTime')} <InfoTip label={result.dischargeHours.formatFormula(formulaFormat)} /></span><strong>{format(result.dischargeHours.value)} <small>{t('hours')}</small></strong></div>
-        <div><span>{t('dischargeHp')} <InfoTip label={result.dischargeHp.formatFormula(formulaFormat)} /></span><strong>{format(result.dischargeHp.value)} <small>HP</small></strong></div>
+        <div className="timing-accent"><span>{t('dischargeTime')} <InfoTip label={result.dischargeHours.formatFormula(formulaFormat)} /></span><strong>{formatDischarge(result.dischargeHours.value, t('hours'))}</strong></div>
+        <div><span>{t('dischargeHp')} <InfoTip label={result.dischargeHp.formatFormula(formulaFormat)} /></span><strong>{formatDischarge(result.dischargeHp.value, 'HP')}</strong></div>
       </div>
     </section>
   );

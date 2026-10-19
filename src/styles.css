@@ -109,10 +109,11 @@ h1 { margin: 0; font-size: clamp(1.1rem, 2vw, 1.45rem); line-height: 1.1; letter
 .timing-grid > div { padding: 14px 15px; display: flex; justify-content: space-between; align-items: center; gap: 12px; border-radius: 11px; background: rgba(255,255,255,.055); }
 .timing-grid span { color: #a8b8b1; font-size: .68rem; }
 .timing-grid strong { white-space: nowrap; font-size: .9rem; font-variant-numeric: tabular-nums; }
+.timing-grid strong em { font-size: .8rem; font-weight: 400; }
 .timing-grid small { color: #a8b8b1; font-size: .65rem; }
 .timing-grid .timing-accent { border: 1px solid rgba(237,120,75,.38); background: rgba(237,120,75,.1); }
 
-.targets-card, .comparison-card { padding: 22px 24px 24px; }
+.targets-card { padding: 22px 24px 24px; }
 .target-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .target-block { padding: 17px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
 .target-title { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 13px; border-bottom: 1px solid var(--line); }
@@ -130,8 +131,8 @@ h1 { margin: 0; font-size: clamp(1.1rem, 2vw, 1.45rem); line-height: 1.1; letter
 .accordion-heading::before { content: ''; flex: 0 0 7px; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); }
 .result-accordion[open] > .accordion-heading::before { transform: rotate(45deg); }
 .accordion-heading h2, .accordion-heading h3 { flex: 1; margin: 0; font-size: .76rem; text-transform: uppercase; letter-spacing: .1em; }
-.comparison-card > summary { margin-bottom: 0; }
-.comparison-content { padding-top: 18px; }
+.comparison-details { position: relative; z-index: 2; margin-top: 14px; padding: 8px 14px; border: 1px solid #d3d9d2; border-radius: 12px; color: var(--ink); background: #dddedc; }
+.comparison-content { padding-top: 4px; }
 .calculation-details { position: relative; z-index: 2; margin-bottom: 20px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); background: var(--paper); }
 .calculation-details .detail-list { padding-bottom: 4px; }
 .calculation-details .detail-list > div:last-child { border-bottom: 0; }
@@ -199,7 +200,7 @@ h1 { margin: 0; font-size: clamp(1.1rem, 2vw, 1.45rem); line-height: 1.1; letter
   .parameter-panel { position: static; width: 100%; }
   .expand-button { margin-bottom: 0; }
   .main-column { width: 100%; }
-  .account-card, .targets-card, .comparison-card, .summary-card { padding: 19px 16px; }
+  .account-card, .targets-card, .summary-card { padding: 19px 16px; }
   .account-grid { grid-template-columns: 1fr; gap: 13px; }
   .projection-grid, .target-grid { grid-template-columns: 1fr; }
   .projection { min-height: 118px; }

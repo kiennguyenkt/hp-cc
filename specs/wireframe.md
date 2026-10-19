@@ -28,12 +28,11 @@ Lv tối đa [27 v]                  DỰ KIẾN ĐẾN CUỐI EVENT            
 Hồi HP/phút [320 v]                 ▸ CHI TIẾT TÍNH TOÁN
 Bình thêm khi bang max —
                                   Level hiện tại — HP      Bang max level — HP [i]
-1 bình = 500 HP                   Hồi đầy dự trữ — giờ | Thời gian cần xả — giờ | HP cần xả —
-[x] Nạp gói 249
-[x] Mua đủ 5 lượt Daily bằng KC    ▸ SO SÁNH KỊCH BẢN                               03
-Daily: 60 + 90 × 5 bình/ngày
-Gói 249: 200 + 10 bình/ngày        CÁC MỐC MỤC TIÊU                                 04
-                                  MỐC 3.5M                         MỐC 5M
+1 bình = 500 HP                     ▸ SO SÁNH KỊCH BẢN
+[x] Nạp gói 249                   Hồi đầy dự trữ — giờ | Thời gian cần xả — giờ | HP cần xả —
+[x] Mua đủ 5 lượt Daily bằng KC
+Daily: 60 + 90 × 5 bình/ngày      CÁC MỐC MỤC TIÊU                                 03
+Gói 249: 200 + 10 bình/ngày      MỐC 3.5M                         MỐC 5M
                                   Level hiện tại | Bang max       Level hiện tại | Bang max
                                   HP thiếu —     | —              HP thiếu —     | —
                                   Bình thiếu —   | —              Bình thiếu —   | —
@@ -45,7 +44,7 @@ Sáu ô account xếp ba cột trên màn hình rộng, hai cột ở kích thư
 
 ## Mobile
 
-Bố cục một cột: thanh đầu trang → tham số → dữ liệu account → dự kiến (chứa chi tiết) → so sánh → các mốc mục tiêu.
+Bố cục một cột: thanh đầu trang → tham số → dữ liệu account → dự kiến (chứa chi tiết và so sánh) → các mốc mục tiêu.
 
 ```text
 TÍNH HP SỰ KIỆN CHUNG CUỘC
@@ -78,11 +77,10 @@ DỰ KIẾN ĐẾN CUỐI EVENT
 
 Level hiện tại — HP
 Bang max level — HP [i]
+  ▸ SO SÁNH KỊCH BẢN
 Hồi đầy dự trữ — giờ
 Thời gian cần xả — giờ
 HP cần xả —
-
-▸ SO SÁNH KỊCH BẢN
 
 CÁC MỐC MỤC TIÊU
 MỐC 3.5M
@@ -109,10 +107,11 @@ DỰ KIẾN ĐẾN CUỐI EVENT
     Tổng HP hồi tới ngày kết thúc [i]     —
 
 Level hiện tại — HP       Bang max level — HP [i]
+  ▸ SO SÁNH KỊCH BẢN
 Hồi đầy dự trữ — giờ | Thời gian cần xả — giờ | HP cần xả —
 ```
 
-So sánh kịch bản là một thẻ accordion riêng, ngay sau dự kiến và trước các mốc mục tiêu. Khi mở trên desktop:
+So sánh kịch bản là một accordion nằm **trong cùng thẻ dự kiến**, ngay trước hàng thời gian (Hồi đầy dự trữ) và sau hai tổng dự kiến. Khi mở trên desktop:
 
 ```text
 ▾ SO SÁNH KỊCH BẢN

@@ -10,7 +10,7 @@ interface TargetProgressProps {
 export function TargetProgress({ result, format, t }: TargetProgressProps) {
   return (
     <section className="card targets-card">
-      <div className="section-heading"><h2>{t('targets')}</h2><span className="section-index">04</span></div>
+      <div className="section-heading"><h2>{t('targets')}</h2><span className="section-index">03</span></div>
       <div className="target-grid">
         {(['3500000', '5000000'] as const).map((target) => (
           <article className="target-block" key={target}>

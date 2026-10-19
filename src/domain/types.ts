@@ -1,3 +1,5 @@
+import type { ResultWithFormula } from './resultWithFormula';
+
 export type Locale = 'vi' | 'en' | 'th' | 'id' | 'zh';
 export type MaxGuildLevel = 27 | 40;
 
@@ -28,9 +30,11 @@ export type NumericField =
   | 'guildLevel';
 
 export interface ScenarioTotal {
-  current: number | null;
-  max: number | null;
+  current: ResultWithFormula;
+  max: ResultWithFormula;
 }
+
+export type ScenarioKey = 'both' | 'noPackage' | 'noDaily' | 'neither';
 
 export interface TargetGap {
   hp: number | null;
@@ -41,20 +45,21 @@ export interface CalculatorResult {
   daysRemaining: number | null;
   minutesRemaining: number | null;
   hoursRemaining: number | null;
-  recoveryHp: number | null;
-  resetHp: number | null;
+  recoveryHp: ResultWithFormula;
+  resetHp: ResultWithFormula;
   dailyBottles: number;
   futureDailyBottles: number | null;
   futurePackageBottles: number | null;
-  totalBottles: number | null;
-  totalBottleHp: number | null;
+  totalBottles: ResultWithFormula;
+  totalBottleHp: ResultWithFormula;
   extraMaxBottles: number | null;
-  extraMaxHp: number | null;
-  projectedCurrent: number | null;
-  projectedMax: number | null;
-  hoursToFill: number | null;
-  dischargeHours: number | null;
-  dischargeHp: number | null;
-  scenarios: Record<'both' | 'noPackage' | 'noDaily' | 'neither', ScenarioTotal>;
+  extraMaxHp: ResultWithFormula;
+  projectedCurrent: ResultWithFormula;
+  projectedMax: ResultWithFormula;
+  hoursToFill: ResultWithFormula;
+  dischargeHours: ResultWithFormula;
+  dischargeHp: ResultWithFormula;
+  selectedScenario: ScenarioKey;
+  scenarios: Record<ScenarioKey, ScenarioTotal>;
   targets: Record<'3500000' | '5000000', { current: TargetGap; max: TargetGap }>;
 }

@@ -46,12 +46,13 @@ Default hard-code của config đầu tiên: Current Merit `0`, Max HP reset/day
 
 Chi tiết hành vi đã xác nhận:
 
-- Tự lưu config đang chọn vào localStorage sau `2 giây` kể từ thay đổi cuối cùng (debounce), không cần nút Lưu riêng.
+- Lưu thủ công: nút `[Lưu]` ghi config đang chọn vào localStorage. Không tự lưu khi sửa input, đổi tên, chuyển config hoặc clone.
 - Mỗi config gồm 6 ô input, ngày kết thúc và các tham số người dùng được phép thay đổi: lv bang hiện tại, lv max, mức hồi HP, lựa chọn mua gói 249 và lựa chọn mua bình Daily bằng kim cương.
-- Luôn ghi nhớ config đang chọn trong localStorage để mở lại đúng config đó ở lần truy cập sau.
+- Khi bấm `[Lưu]`, ghi nhớ config đang chọn để mở lại config đó ở lần truy cập sau. Chuyển tab config chỉ cập nhật state trong phiên hiện tại.
 - Khi chưa có dữ liệu lưu: tạo config `[1]` với bộ giá trị mặc định đã chốt ở trên.
 - Nhấn `[+]` tạo bản sao của config đang chọn và chuyển sang config mới, giúp thay đổi để so sánh.
-- Trước khi chuyển config hoặc clone bằng `[+]`, ghi ngay các thay đổi đang chờ của config hiện tại để không mất dữ liệu trong khoảng debounce `2 giây`.
+- Chuyển config giữ nguyên các thay đổi chưa lưu của từng config trong state; quay lại tab vẫn thấy dữ liệu đang sửa. Clone dùng dữ liệu hiện tại, kể cả phần chưa lưu.
+- Reload hoặc đóng trang sẽ mất các thay đổi và config mới chưa được lưu. Khi mở lại, khôi phục dữ liệu tại lần lưu gần nhất của từng config; đây là hành vi được chấp nhận.
 - Chuyển config sẽ cập nhật toàn bộ input, tham số và tính lại kết quả.
 - Chỉ lưu dữ liệu đầu vào; kết quả tính lại theo thời điểm hiện tại khi mở trang hoặc chuyển config.
 - Trạng thái mở/thu gọn là trạng thái giao diện, mặc định mở khi vào trang; không lưu chung vào config.

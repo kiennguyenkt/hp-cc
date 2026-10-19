@@ -129,6 +129,7 @@ Cả hai accordion mặc định **thu gọn khi tải trang**, mở/đóng đ�
 
 - Thanh đầu trang có nút đổi tên và lưu cấu hình, các tab cấu hình, nút nhân bản `[+]`, trạng thái lưu và năm lựa chọn ngôn ngữ. Tab dùng tên cấu hình hoặc số thứ tự khi chưa có tên; cấu hình đang chọn có màu nhấn.
 - `[+]` sao chép cấu hình đang chọn và chuyển sang bản mới. `[Lưu]` lưu cấu hình hiện tại vào localStorage; trạng thái phản ánh dữ liệu đã lưu, thay đổi chưa lưu hoặc lỗi lưu. Đổi tên dùng hộp thoại có ô tên và nút hủy/xác nhận.
+- Chuyển tab giữ bản nháp của từng cấu hình trong state, không ghi localStorage. Reload hoặc đóng trang được phép mất thay đổi chưa lưu; khi mở lại dùng dữ liệu đã lưu và cấu hình tại lần bấm `[Lưu]` gần nhất.
 - Ngôn ngữ mặc định là tiếng Việt, được lưu riêng và áp dụng cho toàn bộ giao diện.
 - Tham số mặc định mở mỗi lần tải trang trên cả desktop và mobile; thu gọn tham số không ẩn dữ liệu account hoặc kết quả.
 - Kết quả tính lại ngay khi thay đổi input. Thời gian cập nhật mỗi 5 giây và khi trở lại tab/cửa sổ.

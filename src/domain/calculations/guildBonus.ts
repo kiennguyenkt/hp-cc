@@ -1,5 +1,6 @@
 import { bottlesToHp } from './bottleResources';
-import type { MaxGuildLevel } from './types';
+import { createResultWithFormula as resultWithFormula, type FormulaFormat } from '../resultWithFormula';
+import type { MaxGuildLevel } from '../types';
 
 export const GUILD_BOTTLE_TOTALS = [
   0, 3, 11, 24, 42, 65, 93, 126, 164, 207, 255, 306, 360, 417,
@@ -16,5 +17,10 @@ export function calculateGuildBonus(guildLevel: number | null, maxGuildLevel: Ma
   const extraMaxBottles = validLevel
     ? GUILD_BOTTLE_TOTALS[maxGuildLevel] - GUILD_BOTTLE_TOTALS[guildLevel]
     : null;
-  return { extraMaxBottles, extraMaxHp: bottlesToHp(extraMaxBottles) };
+  const extraMaxHpValue = bottlesToHp(extraMaxBottles);
+  const extraMaxHpFormula = (value: number | null, { formatNumber: f, label: l }: FormulaFormat) =>
+    `+${f(value)} HP (${f(extraMaxBottles)} ${l('bottles')})`;
+  const extraMaxHp = resultWithFormula(extraMaxHpValue, extraMaxHpFormula);
+
+  return { extraMaxBottles, extraMaxHp };
 }

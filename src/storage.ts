@@ -1,4 +1,4 @@
-import { createDefaultConfig } from './domain/defaultConfig';
+import { createDefaultFormValue } from './domain/defaultFormValue';
 import type { CalculatorConfig, Locale } from './domain/types';
 
 const CONFIG_KEY = 'hp-calculator:configs:v1';
@@ -11,11 +11,11 @@ export function loadConfigs(): { configs: CalculatorConfig[]; activeId: string }
   try {
     const parsed = JSON.parse(localStorage.getItem(CONFIG_KEY) ?? '') as Partial<StoredState>;
     if (parsed.schemaVersion !== 1 || !Array.isArray(parsed.configs) || parsed.configs.length === 0) throw new Error();
-    const configs = parsed.configs.map((config) => ({ ...createDefaultConfig(config.id), ...config }));
+    const configs = parsed.configs.map((config) => ({ ...createDefaultFormValue(config.id), ...config }));
     const activeId = configs.some((config) => config.id === parsed.activeId) ? parsed.activeId! : configs[0].id;
     return { configs, activeId };
   } catch {
-    const config = createDefaultConfig();
+    const config = createDefaultFormValue();
     return { configs: [config], activeId: config.id };
   }
 }

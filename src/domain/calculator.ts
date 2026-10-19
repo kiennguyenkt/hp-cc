@@ -1,14 +1,11 @@
-import { calculateBottleResources, HP_PER_BOTTLE } from './bottleResources';
-import { calculateGuildBonus } from './guildBonus';
-import { calculateHpDischarge } from './hpDischarge';
-import type { CalculatorConfig, CalculatorResult, ScenarioTotal, TargetGap } from './types';
+import { calculateBottleResources, HP_PER_BOTTLE } from './calculations/bottleResources';
+import { calculateGuildBonus } from './calculations/guildBonus';
+import { calculateHpDischarge } from './calculations/hpDischarge';
+import type { CalculatorConfig, CalculatorResult, ScenarioKey, TargetGap } from './types';
 import { parseNumericDraft } from './validation';
-import { calculateEventTimeRemaining } from './eventTime';
-import { sumOrNull } from '../shared/math';
-
-function scenario(current: number | null, extraMaxHp: number | null): ScenarioTotal {
-  return { current, max: sumOrNull(current, extraMaxHp) };
-}
+import { calculateEventTimeRemaining } from './calculations/eventTime';
+import { calculateRecoveryHp, calculateResetHp } from './calculations/hpRecovery';
+import { calculateProjection, calculateScenarios } from './calculations/eventHpEstimation';
 
 function targetGap(target: number, total: number | null): TargetGap {
   if (total === null) return { hp: null, bottles: null };
@@ -25,12 +22,11 @@ export function calculate(config: CalculatorConfig, now = new Date()): Calculato
   const recoveryLimit = parseNumericDraft(config.recoveryLimit);
   const guildLevel = parseNumericDraft(config.guildLevel);
   const { daysRemaining, minutesRemaining, hoursRemaining } = calculateEventTimeRemaining(config.endDate, now);
-  const recoveryHp = hoursRemaining === null ? null : hoursRemaining * 60 * config.recoveryRate;
-  const resetHp = daysRemaining === null || resetPerDay === null ? null : daysRemaining * resetPerDay;
+  const recoveryHp = calculateRecoveryHp(hoursRemaining, config.recoveryRate);
+  const resetHp = calculateResetHp(daysRemaining, resetPerDay);
 
   const {
     dailyBottles, futureDailyBottles, futurePackageBottles, totalBottles, totalBottleHp,
-    baseBottleHp, paidPackageHp, paidDailyHp,
   } = calculateBottleResources({
     currentBottles,
     daysRemaining,
@@ -38,8 +34,6 @@ export function calculate(config: CalculatorConfig, now = new Date()): Calculato
     buyDailyDiamonds: config.buyDailyDiamonds,
   });
   const { extraMaxBottles, extraMaxHp } = calculateGuildBonus(guildLevel, config.maxGuildLevel);
-  const projectedCurrent = sumOrNull(merit, currentHp, hpBackup, totalBottleHp, resetHp, recoveryHp);
-  const projectedMax = sumOrNull(projectedCurrent, extraMaxHp);
 
   const { hoursToFill, dischargeHours, dischargeHp } = calculateHpDischarge({
     hpBackup,
@@ -48,17 +42,18 @@ export function calculate(config: CalculatorConfig, now = new Date()): Calculato
     hoursRemaining,
   });
 
-  const base = sumOrNull(merit, currentHp, hpBackup, baseBottleHp, resetHp, recoveryHp);
-  const bothCurrent = sumOrNull(base, paidPackageHp, paidDailyHp);
-  const noPackageCurrent = sumOrNull(base, paidDailyHp);
-  const noDailyCurrent = sumOrNull(base, paidPackageHp);
-
-  const scenarios = {
-    both: scenario(bothCurrent, extraMaxHp),
-    noPackage: scenario(noPackageCurrent, extraMaxHp),
-    noDaily: scenario(noDailyCurrent, extraMaxHp),
-    neither: scenario(base, extraMaxHp),
-  };
+  // Comparisons always use the baseline with both purchases enabled.
+  const fullBottleHp = config.buyPackage249 && config.buyDailyDiamonds
+    ? totalBottleHp
+    : calculateBottleResources({ currentBottles, daysRemaining, buyPackage249: true, buyDailyDiamonds: true }).totalBottleHp;
+  const baseline = calculateProjection({
+    merit, currentHp, hpBackup, bottleHp: fullBottleHp.value, resetHp: resetHp.value, recoveryHp: recoveryHp.value,
+  });
+  const scenarios = calculateScenarios(baseline, extraMaxHp, daysRemaining);
+  const selectedScenario: ScenarioKey = config.buyPackage249
+    ? (config.buyDailyDiamonds ? 'both' : 'noDaily')
+    : (config.buyDailyDiamonds ? 'noPackage' : 'neither');
+  const { current: projectedCurrent, max: projectedMax } = scenarios[selectedScenario];
 
   return {
     daysRemaining,
@@ -78,15 +73,16 @@ export function calculate(config: CalculatorConfig, now = new Date()): Calculato
     hoursToFill,
     dischargeHours,
     dischargeHp,
+    selectedScenario,
     scenarios,
     targets: {
       '3500000': {
-        current: targetGap(3_500_000, projectedCurrent),
-        max: targetGap(3_500_000, projectedMax),
+        current: targetGap(3_500_000, projectedCurrent.value),
+        max: targetGap(3_500_000, projectedMax.value),
       },
       '5000000': {
-        current: targetGap(5_000_000, projectedCurrent),
-        max: targetGap(5_000_000, projectedMax),
+        current: targetGap(5_000_000, projectedCurrent.value),
+        max: targetGap(5_000_000, projectedMax.value),
       },
     },
   };

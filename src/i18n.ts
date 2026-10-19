@@ -457,6 +457,8 @@ export const messages = {
   },
   invalid: { vi: "—", en: "—", th: "—", id: "—", zh: "—" },
   bottles: { vi: "bình", en: "batteries", th: "ขวด", id: "botol", zh: "瓶" },
+  dailySource: { vi: "Hằng ngày", en: "Daily", th: "รายวัน", id: "Harian", zh: "每日" },
+  freeSource: { vi: "miễn phí", en: "free", th: "ฟรี", id: "gratis", zh: "免费" },
   hp: { vi: "HP", en: "HP", th: "HP", id: "HP", zh: "HP" },
   selected: {
     vi: "đang chọn",

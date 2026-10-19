@@ -36,8 +36,13 @@ export function calculateBottleResources({
   const futureDailyBottles = daysRemaining === null ? null : daysRemaining * dailyBottles;
   const futurePackageBottles = daysRemaining === null ? null : daysRemaining * packagePerDay;
   const totalBottlesValue = sumOrNull(currentBottles, futureDailyBottles, futurePackageBottles);
-  const totalBottlesFormula = (value: number | null, { formatNumber: f, label: l }: FormulaFormat) =>
-    `${f(currentBottles)} + ${f(daysRemaining)} × ${f(dailyBottles)} (Daily) + ${f(daysRemaining)} × ${f(packagePerDay)} (249/free) = ${f(value)} ${l('bottles')}`;
+  const totalBottlesFormula = (value: number | null, { formatNumber: f, label: l }: FormulaFormat) => {
+    const freePackage = `${f(FREE_PACKAGE_BOTTLES)} [${l('freeSource')}]`;
+    const packageTerms = buyPackage249
+      ? `(${freePackage} + ${f(PAID_PACKAGE_BOTTLES)} [249])`
+      : freePackage;
+    return `${f(currentBottles)} + ${f(daysRemaining)} × ${f(dailyBottles)} [${l('dailySource')}] + ${f(daysRemaining)} × ${packageTerms} = ${f(value)} ${l('bottles')}`;
+  };
   const totalBottles = resultWithFormula(totalBottlesValue, totalBottlesFormula);
 
   return {

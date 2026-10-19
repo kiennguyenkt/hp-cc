@@ -23,7 +23,7 @@ describe('calculation formulas', () => {
     expect(result.recoveryHp.value).toBe(998400);
     expect(result.recoveryHp.formatFormula(plain)).toBe('52 hours × 60 minutes/hours × 320 HP/minutes = 998400 HP');
     expect(result.resetHp.formatFormula(plain)).toBe('2 days × 1000 HP/days = 2000 HP');
-    expect(result.totalBottles.formatFormula(plain)).toBe('10 + 2 × 510 (Daily) + 2 × 210 (249/free) = 1450 batteries');
+    expect(result.totalBottles.formatFormula(plain)).toBe('10 + 2 × 510 [Daily] + 2 × (10 [free] + 200 [249]) = 1450 batteries');
     expect(result.totalBottleHp.formatFormula(plain)).toBe('1450 batteries × 500 HP = 725000 HP');
     expect(result.hoursToFill.formatFormula(plain)).toBe('Round down: (HP recovery limit − HP backup) ÷ (HP recovery / minute × 60)\n⌊(38700 − 300) ÷ (320 × 60)⌋ = 2 hours');
     expect(result.dischargeHours.formatFormula(plain)).toBe('Time remaining − Time to fill reserve + 2 hours\n52 − 2 + 2 = 52 hours');
@@ -33,11 +33,11 @@ describe('calculation formulas', () => {
   });
 
   it.each([
-    { buyPackage249: true, buyDailyDiamonds: true, key: 'both', bottles: 1450, total: 1726000, daily: 510, packageDaily: 210 },
-    { buyPackage249: false, buyDailyDiamonds: true, key: 'noPackage', bottles: 1050, total: 1526000, daily: 510, packageDaily: 10 },
-    { buyPackage249: true, buyDailyDiamonds: false, key: 'noDaily', bottles: 550, total: 1276000, daily: 60, packageDaily: 210 },
-    { buyPackage249: false, buyDailyDiamonds: false, key: 'neither', bottles: 150, total: 1076000, daily: 60, packageDaily: 10 },
-  ] as const)('keeps all comparison formulas independent of the selected $key scenario', ({ buyPackage249, buyDailyDiamonds, key, bottles, total, daily, packageDaily }) => {
+    { buyPackage249: true, buyDailyDiamonds: true, key: 'both', bottles: 1450, total: 1726000, daily: 510, packageFormula: '(10 [free] + 200 [249])' },
+    { buyPackage249: false, buyDailyDiamonds: true, key: 'noPackage', bottles: 1050, total: 1526000, daily: 510, packageFormula: '10 [free]' },
+    { buyPackage249: true, buyDailyDiamonds: false, key: 'noDaily', bottles: 550, total: 1276000, daily: 60, packageFormula: '(10 [free] + 200 [249])' },
+    { buyPackage249: false, buyDailyDiamonds: false, key: 'neither', bottles: 150, total: 1076000, daily: 60, packageFormula: '10 [free]' },
+  ] as const)('keeps all comparison formulas independent of the selected $key scenario', ({ buyPackage249, buyDailyDiamonds, key, bottles, total, daily, packageFormula }) => {
     const result = calculate({ ...config, buyPackage249, buyDailyDiamonds }, now);
     expect(result.selectedScenario).toBe(key);
     expect(result.projectedCurrent).toBe(result.scenarios[key].current);
@@ -45,7 +45,7 @@ describe('calculation formulas', () => {
     expect(result.projectedCurrent.value).toBe(total);
     expect(result.projectedMax.value).toBe(total + 46500);
     expect(result.totalBottles.value).toBe(bottles);
-    expect(result.totalBottles.formatFormula(plain)).toBe(`10 + 2 × ${daily} (Daily) + 2 × ${packageDaily} (249/free) = ${bottles} batteries`);
+    expect(result.totalBottles.formatFormula(plain)).toBe(`10 + 2 × ${daily} [Daily] + 2 × ${packageFormula} = ${bottles} batteries`);
     expect(result.scenarios.both.current.formatFormula(plain)).toBe(`${translator('en')('scenarioTotalFormula')}\n100 + 200 + 300 + 725000 + 2000 + 998400 = 1726000 HP`);
     expect(result.scenarios.noPackage.current.formatFormula(plain)).toBe('1726000 − 200 × 2 × 500 = 1526000 HP');
     expect(result.scenarios.noDaily.current.formatFormula(plain)).toBe('1726000 − 90 × 5 × 2 × 500 = 1276000 HP');
@@ -56,7 +56,7 @@ describe('calculation formulas', () => {
   it.each(['', '-'])('propagates missing or invalid input %j only to dependent calculations', (invalid) => {
     const result = calculate({ ...config, currentBottles: invalid }, now);
     expect(result.totalBottles.value).toBeNull();
-    expect(result.totalBottles.formatFormula(plain)).toBe('— + 2 × 510 (Daily) + 2 × 210 (249/free) = — batteries');
+    expect(result.totalBottles.formatFormula(plain)).toBe('— + 2 × 510 [Daily] + 2 × (10 [free] + 200 [249]) = — batteries');
     expect(result.totalBottleHp.formatFormula(plain)).toBe('— batteries × 500 HP = — HP');
     for (const scenario of Object.values(result.scenarios)) {
       expect(scenario.current.value).toBeNull();
@@ -107,6 +107,8 @@ describe('calculation formulas', () => {
       }
       expect(result.recoveryHp.formatFormula(context)).toContain(label('hours'));
       expect(result.totalBottles.formatFormula(context)).toContain(label('bottles'));
+      expect(result.totalBottles.formatFormula(context)).toContain(`[${label('dailySource')}]`);
+      expect(result.totalBottles.formatFormula(context)).toContain(`(10 [${label('freeSource')}] + 200 [249])`);
       expect(result.scenarios.both.current.formatFormula(context)).toContain(label('scenarioTotalFormula'));
     }
   });

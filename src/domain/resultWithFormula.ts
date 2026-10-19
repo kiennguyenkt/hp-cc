@@ -1,5 +1,6 @@
 export type FormulaLabel =
   | 'hours' | 'minutes' | 'days' | 'bottles'
+  | 'dailySource' | 'freeSource'
   | 'roundDown' | 'recoveryLimit' | 'hpBackup' | 'hpRecoveryRate'
   | 'timeLeft' | 'fillTime' | 'dischargeTime' | 'scenarioTotalFormula';
 

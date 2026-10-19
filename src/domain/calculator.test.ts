@@ -4,25 +4,54 @@ import { createDefaultFormValue } from './defaultFormValue';
 
 // Keep rule tests independent of changes to the app's default account.
 const createTestConfig = () => ({
-  ...createDefaultFormValue('test'), currentBottles: '2000', guildLevel: '0', maxGuildLevel: 27 as const,
+  ...createDefaultFormValue('test'),
+  currentBottles: '2000',
+  guildLevel: '0',
+  maxGuildLevel: 27 as const,
 });
 
 describe('calculate', () => {
   it.each([
     { buyPackage249: true, buyDailyDiamonds: true, key: 'both', bottles: 3440 },
-    { buyPackage249: false, buyDailyDiamonds: true, key: 'noPackage', bottles: 3040 },
-    { buyPackage249: true, buyDailyDiamonds: false, key: 'noDaily', bottles: 2540 },
-    { buyPackage249: false, buyDailyDiamonds: false, key: 'neither', bottles: 2140 },
-  ] as const)('matches projected resources with the $key scenario', ({ key, bottles, ...toggles }) => {
-    const result = calculate({ ...createTestConfig(), ...toggles }, new Date(2026, 9, 16, 16));
-    expect(result.totalBottles.value).toBe(bottles);
-    expect(result.totalBottleHp.value).toBe(bottles * 500);
-    expect(result.projectedCurrent.value).toBe(result.scenarios[key].current.value);
-    expect(result.projectedMax.value).toBe(result.scenarios[key].max.value);
-  });
+    {
+      buyPackage249: false,
+      buyDailyDiamonds: true,
+      key: 'noPackage',
+      bottles: 3040,
+    },
+    {
+      buyPackage249: true,
+      buyDailyDiamonds: false,
+      key: 'noDaily',
+      bottles: 2540,
+    },
+    {
+      buyPackage249: false,
+      buyDailyDiamonds: false,
+      key: 'neither',
+      bottles: 2140,
+    },
+  ] as const)(
+    'matches projected resources with the $key scenario',
+    ({ key, bottles, ...toggles }) => {
+      const result = calculate(
+        { ...createTestConfig(), ...toggles },
+        new Date(2026, 9, 16, 16),
+      );
+      expect(result.totalBottles.value).toBe(bottles);
+      expect(result.totalBottleHp.value).toBe(bottles * 500);
+      expect(result.projectedCurrent.value).toBe(
+        result.scenarios[key].current.value,
+      );
+      expect(result.projectedMax.value).toBe(result.scenarios[key].max.value);
+    },
+  );
 
   it('keeps future bottle sources calculable when current bottles are missing', () => {
-    const result = calculate({ ...createTestConfig(), currentBottles: '' }, new Date(2026, 9, 16, 16));
+    const result = calculate(
+      { ...createTestConfig(), currentBottles: '' },
+      new Date(2026, 9, 16, 16),
+    );
     expect(result.totalBottles.value).toBeNull();
     expect(result.totalBottleHp.value).toBeNull();
     expect(result.futureDailyBottles).toBe(1020);
@@ -46,7 +75,9 @@ describe('calculate', () => {
     config.buyDailyDiamonds = false;
     const result = calculate(config, new Date(2026, 9, 16, 8));
     expect(result.totalBottles.value).toBe(2140);
-    expect(result.scenarios.neither.current.value).toBe(result.projectedCurrent.value);
+    expect(result.scenarios.neither.current.value).toBe(
+      result.projectedCurrent.value,
+    );
   });
 
   it('calculates recovered HP from the displayed whole hours', () => {

@@ -1,5 +1,8 @@
 import type { CalculatorConfig, NumericField } from '../domain/types';
 import type { TranslationKey } from '../i18n';
+import { cx } from '../shared/cx';
+import shared from './shared.module.css';
+import styles from './AccountInputs.module.css';
 
 interface AccountInputsProps {
   config: CalculatorConfig;
@@ -17,13 +20,21 @@ const fields: Array<{ field: NumericField; label: TranslationKey }> = [
   { field: 'recoveryLimit', label: 'recoveryLimit' },
 ];
 
-export function AccountInputs({ config, onChange, onBlur, t }: AccountInputsProps) {
+export function AccountInputs({
+  config,
+  onChange,
+  onBlur,
+  t,
+}: AccountInputsProps) {
   return (
-    <section className="card account-card">
-      <div className="section-heading"><h2>{t('accountData')}</h2><span className="section-index">01</span></div>
-      <div className="account-grid">
+    <section className={cx(shared.card, styles.accountCard)}>
+      <div className={shared.sectionHeading}>
+        <h2>{t('accountData')}</h2>
+        <span className={shared.sectionIndex}>01</span>
+      </div>
+      <div className={styles.accountGrid}>
         {fields.map(({ field, label }) => (
-          <label className="field" key={field}>
+          <label className={shared.field} key={field}>
             <span>{t(label)}</span>
             <input
               inputMode="decimal"

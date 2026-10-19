@@ -1,0 +1,95 @@
+.targetsCard {
+  padding: 22px 24px 24px;
+}
+.targetGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.targetBlock {
+  padding: 17px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+}
+.targetTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 13px;
+  border-bottom: 1px solid var(--line);
+}
+.targetTitle span {
+  color: #8b9691;
+  font-size: 0.63rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.targetTitle strong {
+  color: var(--primary);
+  font-size: 1.45rem;
+  letter-spacing: -0.04em;
+}
+.targetColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding-top: 14px;
+}
+.targetColumns > div + div {
+  padding-left: 18px;
+  border-left: 0;
+}
+.targetColumns h3 {
+  margin: 0 0 10px;
+  color: #7e8984;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.targetColumns p {
+  margin: 7px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: #737e79;
+  font-size: 0.67rem;
+}
+.targetColumns strong {
+  color: var(--ink);
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+}
+
+@container results (max-width: 540px) {
+  .targetGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .targetsCard {
+    padding: 19px 16px;
+  }
+  .targetGrid {
+    grid-template-columns: 1fr;
+  }
+  .targetColumns {
+    gap: 12px;
+  }
+  .targetColumns > div + div {
+    padding-left: 12px;
+  }
+}
+
+@media (max-width: 390px) {
+  .targetColumns {
+    grid-template-columns: 1fr;
+  }
+  .targetColumns > div + div {
+    padding: 12px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+}

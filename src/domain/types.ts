@@ -61,5 +61,8 @@ export interface CalculatorResult {
   dischargeHp: ResultWithFormula;
   selectedScenario: ScenarioKey;
   scenarios: Record<ScenarioKey, ScenarioTotal>;
-  targets: Record<'3500000' | '5000000', { current: TargetGap; max: TargetGap }>;
+  targets: Record<
+    '3500000' | '5000000',
+    { current: TargetGap; max: TargetGap }
+  >;
 }

@@ -1,5 +1,8 @@
 import { sumOrNull } from '../../shared/math';
-import { createResultWithFormula as resultWithFormula, type FormulaFormat } from '../resultWithFormula';
+import {
+  createResultWithFormula as resultWithFormula,
+  type FormulaFormat,
+} from '../resultWithFormula';
 
 export const HP_PER_BOTTLE = 500;
 export const FREE_DAILY_BOTTLES = 60;
@@ -14,7 +17,10 @@ export function bottlesToHp(bottles: number | null): number | null {
 
 export function calculateBottleHp(bottles: number | null) {
   const bottleHpValue = bottlesToHp(bottles);
-  const bottleHpFormula = (value: number | null, { formatNumber: f, label: l }: FormulaFormat) =>
+  const bottleHpFormula = (
+    value: number | null,
+    { formatNumber: f, label: l }: FormulaFormat,
+  ) =>
     `${f(bottles)} ${l('bottles')} × ${f(HP_PER_BOTTLE)} HP = ${f(value)} HP`;
 
   return resultWithFormula(bottleHpValue, bottleHpFormula);
@@ -28,22 +34,39 @@ interface BottleResourceInputs {
 }
 
 export function calculateBottleResources({
-  currentBottles, daysRemaining, buyPackage249, buyDailyDiamonds,
+  currentBottles,
+  daysRemaining,
+  buyPackage249,
+  buyDailyDiamonds,
 }: BottleResourceInputs) {
   const paidDailyBottles = BOTTLES_PER_DAILY_PURCHASE * DAILY_DIAMOND_PURCHASES;
-  const dailyBottles = FREE_DAILY_BOTTLES + (buyDailyDiamonds ? paidDailyBottles : 0);
-  const packagePerDay = FREE_PACKAGE_BOTTLES + (buyPackage249 ? PAID_PACKAGE_BOTTLES : 0);
-  const futureDailyBottles = daysRemaining === null ? null : daysRemaining * dailyBottles;
-  const futurePackageBottles = daysRemaining === null ? null : daysRemaining * packagePerDay;
-  const totalBottlesValue = sumOrNull(currentBottles, futureDailyBottles, futurePackageBottles);
-  const totalBottlesFormula = (value: number | null, { formatNumber: f, label: l }: FormulaFormat) => {
+  const dailyBottles =
+    FREE_DAILY_BOTTLES + (buyDailyDiamonds ? paidDailyBottles : 0);
+  const packagePerDay =
+    FREE_PACKAGE_BOTTLES + (buyPackage249 ? PAID_PACKAGE_BOTTLES : 0);
+  const futureDailyBottles =
+    daysRemaining === null ? null : daysRemaining * dailyBottles;
+  const futurePackageBottles =
+    daysRemaining === null ? null : daysRemaining * packagePerDay;
+  const totalBottlesValue = sumOrNull(
+    currentBottles,
+    futureDailyBottles,
+    futurePackageBottles,
+  );
+  const totalBottlesFormula = (
+    value: number | null,
+    { formatNumber: f, label: l }: FormulaFormat,
+  ) => {
     const freePackage = `${f(FREE_PACKAGE_BOTTLES)} [${l('freeSource')}]`;
     const packageTerms = buyPackage249
       ? `(${freePackage} + ${f(PAID_PACKAGE_BOTTLES)} [249])`
       : freePackage;
     return `${f(currentBottles)} + ${f(daysRemaining)} × ${f(dailyBottles)} [${l('dailySource')}] + ${f(daysRemaining)} × ${packageTerms} = ${f(value)} ${l('bottles')}`;
   };
-  const totalBottles = resultWithFormula(totalBottlesValue, totalBottlesFormula);
+  const totalBottles = resultWithFormula(
+    totalBottlesValue,
+    totalBottlesFormula,
+  );
 
   return {
     dailyBottles,

@@ -21,7 +21,11 @@ function calendarDayDifference(from: Date, to: Date): number {
 export function calculateEventTimeRemaining(endDate: string, now: Date) {
   const end = resolveEventEndTime(endDate);
   if (end === null) {
-    return { daysRemaining: null, minutesRemaining: null, hoursRemaining: null };
+    return {
+      daysRemaining: null,
+      minutesRemaining: null,
+      hoursRemaining: null,
+    };
   }
   const windowStart = new Date(end);
   windowStart.setDate(windowStart.getDate() - (EVENT_WINDOW_DAYS - 1));

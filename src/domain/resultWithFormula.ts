@@ -1,8 +1,18 @@
 export type FormulaLabel =
-  | 'hours' | 'minutes' | 'days' | 'bottles'
-  | 'dailySource' | 'freeSource'
-  | 'roundDown' | 'recoveryLimit' | 'hpBackup' | 'hpRecoveryRate'
-  | 'timeLeft' | 'fillTime' | 'dischargeTime' | 'scenarioTotalFormula';
+  | 'hours'
+  | 'minutes'
+  | 'days'
+  | 'bottles'
+  | 'dailySource'
+  | 'freeSource'
+  | 'roundDown'
+  | 'recoveryLimit'
+  | 'hpBackup'
+  | 'hpRecoveryRate'
+  | 'timeLeft'
+  | 'fillTime'
+  | 'dischargeTime'
+  | 'scenarioTotalFormula';
 
 export interface FormulaFormat {
   formatNumber: (value: number | null) => string;

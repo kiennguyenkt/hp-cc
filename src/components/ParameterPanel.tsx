@@ -1,6 +1,6 @@
 import { RECOVERY_RATE_OPTIONS } from '../domain/defaultFormValue';
 import type { CalculatorConfig } from '../domain/types';
-import type { TranslationKey } from '../i18n';
+import { useFormat, useTranslation } from '../hooks/LocaleContext';
 import { cx } from '../shared/cx';
 import shared from './shared.module.css';
 import styles from './ParameterPanel.module.css';
@@ -14,8 +14,6 @@ interface ParameterPanelProps {
   onToggle: () => void;
   onChange: (patch: Partial<CalculatorConfig>) => void;
   onGuildBlur: () => void;
-  format: (value: number | null) => string;
-  t: (key: TranslationKey) => string;
 }
 
 export function ParameterPanel(props: ParameterPanelProps) {
@@ -28,9 +26,9 @@ export function ParameterPanel(props: ParameterPanelProps) {
     onToggle,
     onChange,
     onGuildBlur,
-    format,
-    t,
   } = props;
+  const t = useTranslation();
+  const format = useFormat();
   if (collapsed) {
     return (
       <button type="button" className={styles.expandButton} onClick={onToggle}>

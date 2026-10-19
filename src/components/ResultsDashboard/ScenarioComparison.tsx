@@ -1,5 +1,5 @@
 import type { CalculatorResult } from '../../domain/types';
-import type { TranslationKey } from '../../i18n';
+import { useFormat, useTranslation } from '../../hooks/LocaleContext';
 import { InfoTip } from '../InfoTip';
 import { cx } from '../../shared/cx';
 import shared from '../shared.module.css';
@@ -7,17 +7,13 @@ import styles from './ScenarioComparison.module.css';
 
 interface ScenarioComparisonProps {
   result: CalculatorResult;
-  format: (value: number | null) => string;
-  t: (key: TranslationKey) => string;
 }
 
 const scenarioKeys = ['both', 'noPackage', 'noDaily', 'neither'] as const;
 
-export function ScenarioComparison({
-  result,
-  format,
-  t,
-}: ScenarioComparisonProps) {
+export function ScenarioComparison({ result }: ScenarioComparisonProps) {
+  const t = useTranslation();
+  const format = useFormat();
   const formulaFormat = { formatNumber: format, label: t };
   const selectedScenario = result.selectedScenario;
 

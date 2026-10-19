@@ -1,5 +1,5 @@
 import type { CalculatorConfig, Locale } from '../domain/types';
-import type { TranslationKey } from '../i18n';
+import { useI18n } from '../hooks/LocaleContext';
 import { cx } from '../shared/cx';
 import styles from './Header.module.css';
 
@@ -15,28 +15,23 @@ const locales = Object.keys(localeLabels) as Locale[];
 interface HeaderProps {
   configs: Pick<CalculatorConfig, 'id' | 'name'>[];
   activeId: string;
-  locale: Locale;
   saveStatus: 'saved' | 'unsaved' | 'error';
   onSave: () => void;
   onRename: () => void;
   onSelect: (id: string) => void;
   onAdd: () => void;
-  onLocaleChange: (locale: Locale) => void;
-  t: (key: TranslationKey) => string;
 }
 
 export function Header({
   configs,
   activeId,
-  locale,
   saveStatus,
   onSave,
   onRename,
   onSelect,
   onAdd,
-  onLocaleChange,
-  t,
 }: HeaderProps) {
+  const { locale, changeLocale, t } = useI18n();
   const saveLabel = saveStatus === 'error' ? t('saveError') : t(saveStatus);
   return (
     <header className={styles.topbar}>
@@ -122,7 +117,7 @@ export function Header({
                 key={code}
                 type="button"
                 className={locale === code ? styles.isActive : ''}
-                onClick={() => onLocaleChange(code)}
+                onClick={() => changeLocale(code)}
               >
                 {localeLabels[code]}
               </button>

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { CalculatorResult } from '../../domain/types';
-import type { TranslationKey } from '../../i18n';
+import { useFormat, useTranslation } from '../../hooks/LocaleContext';
 import { InfoTip } from '../InfoTip';
 import { ScenarioComparison } from './ScenarioComparison';
 import { cx } from '../../shared/cx';
@@ -9,11 +9,11 @@ import styles from './EventEstimation.module.css';
 
 interface EventEstimationProps {
   result: CalculatorResult;
-  format: (value: number | null) => string;
-  t: (key: TranslationKey) => string;
 }
 
-export function EventEstimation({ result, format, t }: EventEstimationProps) {
+export function EventEstimation({ result }: EventEstimationProps) {
+  const t = useTranslation();
+  const format = useFormat();
   const formulaFormat = { formatNumber: format, label: t };
   // Âm nghĩa là không cần xả nữa — hiển thị 0, đơn vị với giá trị âm (in nghiêng, bỏ đậm) xếp hết vào ngoặc.
   const formatDischarge = (value: number | null, unit: string): ReactNode =>
@@ -91,7 +91,7 @@ export function EventEstimation({ result, format, t }: EventEstimationProps) {
           <small>HP</small>
         </div>
       </div>
-      <ScenarioComparison result={result} format={format} t={t} />
+      <ScenarioComparison result={result} />
       <div className={styles.timingGrid}>
         <div>
           <span>

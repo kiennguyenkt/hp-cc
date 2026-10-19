@@ -1,16 +1,16 @@
 import type { CalculatorResult } from '../../domain/types';
-import type { TranslationKey } from '../../i18n';
+import { useFormat, useTranslation } from '../../hooks/LocaleContext';
 import { cx } from '../../shared/cx';
 import shared from '../shared.module.css';
 import styles from './TargetProgress.module.css';
 
 interface TargetProgressProps {
   result: CalculatorResult;
-  format: (value: number | null) => string;
-  t: (key: TranslationKey) => string;
 }
 
-export function TargetProgress({ result, format, t }: TargetProgressProps) {
+export function TargetProgress({ result }: TargetProgressProps) {
+  const t = useTranslation();
+  const format = useFormat();
   return (
     <section className={cx(shared.card, styles.targetsCard)}>
       <div className={shared.sectionHeading}>

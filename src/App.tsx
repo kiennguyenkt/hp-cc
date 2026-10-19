@@ -7,7 +7,7 @@ import { useCalculatorProfiles } from './hooks/useCalculatorProfiles';
 import { useCalculatorInputHandlers } from './hooks/useCalculatorInputHandlers';
 import { calculate } from './domain/calculator';
 import { useCalculatorCurrentTime } from './hooks/useCalculatorCurrentTime';
-import { useLocale } from './hooks/useLocale';
+import { useTranslation } from './hooks/LocaleContext';
 import { cx } from './shared/cx';
 import shared from './components/shared.module.css';
 import styles from './App.module.css';
@@ -39,7 +39,7 @@ export default function App() {
   } = useCalculatorInputHandlers(activeConfig, updateActive);
 
   const now = useCalculatorCurrentTime();
-  const { locale, changeLocale, t, format } = useLocale();
+  const t = useTranslation();
   const result = useMemo(
     () => calculate(activeConfig, now),
     [activeConfig, now],
@@ -50,7 +50,6 @@ export default function App() {
       <Header
         configs={configs}
         activeId={activeId}
-        locale={locale}
         saveStatus={saveStatus}
         onRename={() =>
           setRenameDraft({ id: activeId, name: activeConfig.name })
@@ -58,8 +57,6 @@ export default function App() {
         onSave={saveCurrentConfig}
         onSelect={selectConfig}
         onAdd={addConfig}
-        onLocaleChange={changeLocale}
-        t={t}
       />
       <main className={cx(styles.workspace, collapsed && styles.isCollapsed)}>
         <ParameterPanel
@@ -71,17 +68,14 @@ export default function App() {
           onToggle={() => setCollapsed((value) => !value)}
           onChange={handleParameterChange}
           onGuildBlur={() => normalizeField('guildLevel')}
-          format={format}
-          t={t}
         />
         <div className={styles.mainColumn}>
           <AccountInputs
             config={activeConfig}
             onChange={handleNumericChange}
             onBlur={normalizeField}
-            t={t}
           />
-          <ResultsDashboard result={result} format={format} t={t} />
+          <ResultsDashboard result={result} />
         </div>
       </main>
 

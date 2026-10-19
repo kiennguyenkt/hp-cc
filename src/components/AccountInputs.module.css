@@ -1,0 +1,12 @@
+.accountCard { padding: 22px 24px 24px; }
+.accountCard label input { height: 46px; font-variant-numeric: tabular-nums; }
+.accountGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+
+@media (max-width: 1020px) {
+  .accountGrid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 760px) {
+  .accountCard { padding: 19px 16px; }
+  .accountGrid { grid-template-columns: 1fr; gap: 13px; }
+}

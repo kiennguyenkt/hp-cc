@@ -1,5 +1,6 @@
 import { useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
+import styles from './InfoTip.module.css';
 
 interface InfoTipProps { label: string; }
 
@@ -23,7 +24,7 @@ export function InfoTip({ label }: InfoTipProps) {
 
   return (
     <span
-      className="info-tip"
+      className={styles.infoTip}
       tabIndex={0}
       aria-label={label}
       aria-describedby={anchor ? id : undefined}
@@ -38,7 +39,7 @@ export function InfoTip({ label }: InfoTipProps) {
       {anchor && createPortal(
         <span
           id={id}
-          className="info-popover"
+          className={styles.infoPopover}
           role="tooltip"
           style={{
             width,
